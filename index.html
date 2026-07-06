@@ -3,13 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Mathomancer · Главное меню</title>
+    <title>Mathomancer · Карта Мира</title>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
     <style>
-        /* ============================================
-           ВСЕ СТИЛИ (без скролла в меню и достижениях)
-           ============================================ */
+        /* ===== ОБЩИЕ СТИЛИ ===== */
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         :root {
@@ -77,10 +74,7 @@
             color: var(--gold-light);
             text-shadow: 0 0 20px var(--gold-glow);
             letter-spacing: 2px;
-            cursor: pointer;
-            transition: color 0.3s;
         }
-        .header-left h1:hover { color: #fff; }
 
         .header-left .badge {
             background: rgba(212, 160, 48, 0.12);
@@ -162,519 +156,31 @@
             font-family: 'Cinzel', serif;
         }
 
-        .main-wrapper {
-            width: 100%;
-            max-width: 100%;
-            display: flex;
-            justify-content: center;
-            flex: 1;
-            min-height: 0;
-            position: relative;
-        }
-
-        .content-wrapper {
-            flex: 1;
-            max-width: 480px;
-            display: flex;
-            flex-direction: column;
-            min-height: 0;
-            width: 100%;
-        }
-
-        .back-to-menu {
-            flex-shrink: 0;
-            padding: 6px 12px;
-            background: rgba(212, 160, 48, 0.06);
-            border: 1px solid rgba(212, 160, 48, 0.08);
-            border-radius: 30px;
-            color: var(--gold-light);
-            font-size: 0.75rem;
-            font-family: 'Cinzel', serif;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            margin: 6px 12px;
-            width: auto;
-            max-width: fit-content;
-        }
-        .back-to-menu:hover {
-            background: rgba(212, 160, 48, 0.12);
-            box-shadow: 0 0 20px var(--gold-glow);
-        }
-
-        .screen {
-            display: none;
-            flex-direction: column;
-            height: 100%;
-            width: 100%;
-            flex: 1;
-        }
-        .screen.active { display: flex; }
-
-        /* ===== МЕНЮ (без скролла) ===== */
-        .menu-screen {
-            padding: 20px 16px 16px 16px;
-            align-items: center;
-            justify-content: flex-start;
-            gap: 16px;
-            overflow-y: auto;
-            flex: 1;
-            width: 100%;
-            scrollbar-width: none; /* Firefox */
-            -ms-overflow-style: none; /* IE/Edge */
-        }
-        .menu-screen::-webkit-scrollbar {
-            display: none; /* Chrome/Safari */
-        }
-
-        .menu-screen .greeting {
-            font-size: 1.2rem;
-            color: var(--gold-light);
-            font-family: 'Cinzel', serif;
-            text-align: center;
-            margin-bottom: 8px;
-            letter-spacing: 1px;
-        }
-        .menu-screen .greeting span {
-            display: block;
-            font-size: 0.9rem;
-            color: var(--ink-dim);
-            font-family: 'IM Fell English', serif;
-            margin-top: 4px;
-        }
-
-        .menu-card {
-            width: 100%;
-            max-width: 400px;
-            background: rgba(26, 20, 16, 0.6);
-            border: 1px solid rgba(212, 160, 48, 0.06);
-            border-radius: 24px;
-            padding: 18px 20px;
-            backdrop-filter: blur(8px);
-            transition: all 0.3s;
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-        }
-        .menu-card:hover {
-            border-color: var(--gold);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 30px rgba(0,0,0,0.3);
-        }
-        .menu-card:active { transform: scale(0.98); }
-
-        .menu-card .icon { font-size: 2rem; margin-right: 12px; }
-        .menu-card .title {
-            font-family: 'Cinzel', serif;
-            font-size: 1.1rem;
-            color: var(--gold-light);
-            letter-spacing: 0.5px;
-        }
-        .menu-card .desc {
-            font-size: 0.85rem;
-            color: var(--ink-dim);
-            margin-top: 4px;
-            line-height: 1.4;
-        }
-        .menu-card .badge-info {
-            display: inline-block;
-            background: rgba(76, 175, 80, 0.08);
-            color: #b0e0a0;
-            font-size: 0.7rem;
-            padding: 2px 10px;
-            border-radius: 30px;
-            margin-top: 6px;
-            border: 1px solid rgba(76, 175, 80, 0.1);
-        }
-        .menu-card .badge-info.gold {
-            background: rgba(212, 160, 48, 0.08);
-            color: var(--gold-light);
-            border-color: rgba(212, 160, 48, 0.1);
-        }
-
-        .menu-stats-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr 1fr;
-            gap: 8px;
-            width: 100%;
-            max-width: 400px;
-        }
-        @media (max-width: 440px) {
-            .menu-stats-grid { grid-template-columns: 1fr 1fr; }
-        }
-        .stat-item {
-            background: rgba(26, 20, 16, 0.4);
-            border-radius: 16px;
-            padding: 10px 8px;
-            text-align: center;
-            border: 1px solid rgba(212, 160, 48, 0.04);
-        }
-        .stat-item .value {
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: var(--gold-light);
-            font-family: 'Cinzel', serif;
-        }
-        .stat-item .label {
-            font-size: 0.6rem;
-            color: var(--ink-dim);
-            text-transform: uppercase;
-            letter-spacing: 0.3px;
-            margin-top: 2px;
-        }
-
-        /* ===== СЛОВАРЬ ===== */
-        .dictionary-screen {
-            padding: 8px 12px 20px 12px;
-            overflow-y: auto;
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-            scrollbar-width: none;
-            -ms-overflow-style: none;
-        }
-        .dictionary-screen::-webkit-scrollbar { display: none; }
-        .dictionary-screen .dict-title {
-            font-family: 'Cinzel', serif;
-            font-size: 1.3rem;
-            color: var(--gold-light);
-            text-align: center;
-            margin: 4px 0 8px 0;
-            letter-spacing: 1px;
-        }
-        .dict-card {
-            background: rgba(26, 20, 16, 0.5);
-            border: 1px solid rgba(212, 160, 48, 0.04);
-            border-radius: 20px;
-            padding: 16px 18px;
-            backdrop-filter: blur(6px);
-            transition: border-color 0.3s;
-        }
-        .dict-card:hover { border-color: rgba(212, 160, 48, 0.12); }
-        .dict-card .name {
-            font-family: 'Cinzel', serif;
-            font-size: 1.1rem;
-            color: var(--gold-light);
-            margin-bottom: 4px;
-            letter-spacing: 0.5px;
-        }
-        .dict-card .definition {
-            font-size: 0.9rem;
-            color: var(--ink);
-            line-height: 1.5;
-            margin-bottom: 6px;
-            font-style: italic;
-        }
-        .dict-card .formula {
-            font-size: 1.1rem;
-            color: var(--gold-light);
-            background: rgba(212, 160, 48, 0.04);
-            padding: 4px 12px;
-            border-radius: 30px;
-            display: inline-block;
-            margin: 4px 0 6px 0;
-            font-weight: 500;
-            font-family: 'Georgia', serif;
-            letter-spacing: 0.3px;
-        }
-        .dict-card .example {
-            font-size: 0.9rem;
-            color: var(--ink-dim);
-            padding: 6px 10px;
-            background: rgba(255,255,255,0.02);
-            border-radius: 12px;
-            border-left: 2px solid rgba(212, 160, 48, 0.08);
-        }
-        .dict-card .example strong {
-            color: var(--gold-light);
-            font-weight: 500;
-        }
-
-        /* ===== ДУЭЛИ ===== */
-        .duel-screen {
-            padding: 8px 12px 20px 12px;
-            display: flex;
-            flex-direction: column;
-            flex: 1;
-            gap: 12px;
-            overflow-y: auto;
-        }
-
-        .duel-screen .duel-title {
-            font-family: 'Cinzel', serif;
-            font-size: 1.3rem;
-            color: var(--gold-light);
-            text-align: center;
-            margin: 4px 0 8px 0;
-            letter-spacing: 1px;
-        }
-
-        .duel-lobby {
-            background: rgba(26, 20, 16, 0.5);
-            border-radius: 20px;
-            padding: 16px;
-            border: 1px solid rgba(212, 160, 48, 0.04);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .duel-lobby .peer-id {
-            font-size: 0.9rem;
-            color: var(--ink-dim);
-            word-break: break-all;
-            text-align: center;
-        }
-        .duel-lobby .peer-id strong {
-            color: var(--gold-light);
-        }
-
-        .duel-lobby .room-code {
-            font-family: 'Cinzel', serif;
-            font-size: 1.6rem;
-            color: var(--gold-light);
-            background: rgba(0,0,0,0.3);
-            padding: 6px 20px;
-            border-radius: 30px;
-            border: 1px solid rgba(212, 160, 48, 0.1);
-        }
-
-        .duel-lobby .status {
-            font-size: 1rem;
-            color: var(--ink);
-            margin: 4px 0;
-        }
-
-        .duel-lobby .input-group {
-            display: flex;
-            gap: 8px;
-            width: 100%;
-            max-width: 300px;
-        }
-        .duel-lobby .input-group input {
-            flex: 1;
-            padding: 8px 14px;
-            border-radius: 60px;
-            border: 1px solid rgba(212, 160, 48, 0.15);
-            background: rgba(255,255,255,0.03);
-            color: var(--ink);
-            font-size: 0.9rem;
-            font-family: 'Georgia', serif;
-            outline: none;
-        }
-        .duel-lobby .input-group input:focus {
-            border-color: var(--gold);
-        }
-        .duel-lobby .input-group button {
-            padding: 8px 18px;
-            border-radius: 60px;
-            border: none;
-            background: linear-gradient(135deg, var(--gold), #b8860b);
-            color: var(--parchment);
-            font-weight: 700;
-            font-family: 'Cinzel', serif;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        .duel-lobby .input-group button:hover {
-            transform: scale(1.02);
-        }
-
-        .duel-lobby .btn-duel {
-            padding: 10px 28px;
-            border-radius: 60px;
-            border: none;
-            background: linear-gradient(135deg, var(--gold), #b8860b);
-            color: var(--parchment);
-            font-weight: 700;
-            font-family: 'Cinzel', serif;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-size: 1rem;
-        }
-        .duel-lobby .btn-duel:hover {
-            transform: scale(1.02);
-        }
-        .duel-lobby .btn-duel:disabled {
-            opacity: 0.4;
-            transform: none;
-            cursor: not-allowed;
-        }
-
-        /* Экран боя */
-        .duel-battle {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            flex: 1;
-        }
-
-        .duel-battle .duel-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 4px 0;
-            border-bottom: 1px solid rgba(212, 160, 48, 0.04);
-        }
-        .duel-battle .duel-header .timer {
-            font-size: 1.3rem;
-            color: var(--gold-light);
-            font-family: 'Cinzel', serif;
-        }
-        .duel-battle .duel-header .progress-info {
-            font-size: 0.85rem;
-            color: var(--ink-dim);
-        }
-
-        .duel-battle .players-progress {
-            display: flex;
-            justify-content: space-between;
-            gap: 12px;
-        }
-        .duel-battle .players-progress .player-box {
-            flex: 1;
-            background: rgba(0,0,0,0.2);
-            border-radius: 16px;
-            padding: 8px 12px;
-            text-align: center;
-            border: 1px solid rgba(212, 160, 48, 0.04);
-        }
-        .duel-battle .players-progress .player-box .name {
-            font-family: 'Cinzel', serif;
-            font-size: 0.8rem;
-            color: var(--gold-light);
-        }
-        .duel-battle .players-progress .player-box .solved {
-            font-size: 1.2rem;
-            color: var(--ink);
-        }
-        .duel-battle .players-progress .player-box .solved strong {
-            color: var(--gold-light);
-        }
-        .duel-battle .players-progress .player-box.opponent {
-            opacity: 0.7;
-        }
-        .duel-battle .players-progress .player-box.opponent .name {
-            color: var(--ink-dim);
-        }
-
-        .duel-battle .task-card-duel {
-            background: rgba(26, 20, 16, 0.6);
-            border-radius: 20px;
-            padding: 16px 18px;
-            border: 1px solid rgba(212, 160, 48, 0.04);
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-        .duel-battle .task-card-duel .task-text {
-            font-size: 1rem;
-            color: var(--ink);
-            margin-bottom: 12px;
-            line-height: 1.5;
-            font-family: 'Georgia', serif;
-        }
-        .duel-battle .task-card-duel .task-text .math {
-            color: var(--gold-light);
-            font-weight: 600;
-        }
-        .duel-battle .task-card-duel .answer-row-duel {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-        .duel-battle .task-card-duel .answer-row-duel input {
-            flex: 1;
-            padding: 8px 14px;
-            border-radius: 60px;
-            border: 1px solid rgba(212, 160, 48, 0.15);
-            background: rgba(255,255,255,0.03);
-            color: var(--ink);
-            font-size: 0.9rem;
-            font-family: 'Georgia', serif;
-            outline: none;
-            min-width: 60px;
-        }
-        .duel-battle .task-card-duel .answer-row-duel input:focus {
-            border-color: var(--gold);
-        }
-        .duel-battle .task-card-duel .answer-row-duel button {
-            padding: 8px 18px;
-            border-radius: 60px;
-            border: none;
-            background: linear-gradient(135deg, var(--gold), #b8860b);
-            color: var(--parchment);
-            font-weight: 700;
-            font-family: 'Cinzel', serif;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        .duel-battle .task-card-duel .answer-row-duel button:hover {
-            transform: scale(1.02);
-        }
-        .duel-battle .task-card-duel .answer-row-duel button:disabled {
-            opacity: 0.4;
-            transform: none;
-            cursor: not-allowed;
-        }
-
-        .duel-battle .duel-feedback {
-            font-size: 0.85rem;
-            color: var(--ink-dim);
-            text-align: center;
-            font-style: italic;
-            padding: 4px;
-        }
-
-        .duel-result {
-            padding: 20px;
-            text-align: center;
-            background: rgba(0,0,0,0.3);
-            border-radius: 20px;
-            margin: 20px auto;
-            max-width: 400px;
-            width: 100%;
-        }
-        .duel-result .big-icon { font-size: 4rem; margin-bottom: 10px; }
-        .duel-result .title {
-            font-family: 'Cinzel', serif;
-            font-size: 1.5rem;
-            color: var(--gold-light);
-        }
-        .duel-result .sub {
-            font-size: 1rem;
-            color: var(--ink-dim);
-            margin-top: 6px;
-        }
-        .duel-result .reward {
-            font-size: 1.8rem;
-            color: var(--gold-light);
-            margin: 10px 0;
-        }
-
-        /* ===== ОСТАЛЬНЫЕ СТИЛИ ===== */
+        /* ===== КАРТА МИРА ===== */
         .world-map-container {
             width: 100%;
+            max-width: 100%;
             padding: 6px 16px;
             background: linear-gradient(180deg, rgba(26, 20, 16, 0.9), rgba(26, 20, 16, 0.4));
             border-bottom: 1px solid rgba(212, 160, 48, 0.04);
             flex-shrink: 0;
+            position: sticky;
+            top: 56px;
+            z-index: 10;
             overflow-x: auto;
             scrollbar-width: none;
             -ms-overflow-style: none;
         }
+
         .world-map-container::-webkit-scrollbar { display: none; }
+
         .world-map {
             display: flex;
             gap: 8px;
             padding: 6px 0;
             min-width: max-content;
         }
+
         .location-btn {
             background: rgba(212, 160, 48, 0.04);
             border: 1px solid rgba(212, 160, 48, 0.06);
@@ -692,19 +198,27 @@
             letter-spacing: 0.5px;
             text-transform: uppercase;
         }
+
         .location-btn .icon { font-size: 1rem; }
         .location-btn .check { display: none; font-size: 0.7rem; color: #4caf50; margin-left: 4px; }
         .location-btn.completed .check { display: inline; }
         .location-btn.completed { border-color: rgba(76, 175, 80, 0.15); background: rgba(76, 175, 80, 0.04); }
         .location-btn.active { background: rgba(212, 160, 48, 0.08); border-color: var(--gold); color: var(--gold-light); box-shadow: 0 0 30px rgba(212, 160, 48, 0.05); }
+        .location-btn:hover { background: rgba(212, 160, 48, 0.06); transform: translateY(-1px); }
         .location-btn.locked { opacity: 0.3; cursor: not-allowed; pointer-events: none; }
 
+        /* ===== ПРОГРЕСС ЛОКАЦИИ ===== */
         .location-progress {
             width: 100%;
+            max-width: 100%;
             padding: 4px 16px;
             background: rgba(26, 20, 16, 0.3);
             flex-shrink: 0;
+            position: sticky;
+            top: 100px;
+            z-index: 9;
         }
+
         .location-progress .bar-bg {
             width: 100%;
             height: 3px;
@@ -712,6 +226,7 @@
             border-radius: 4px;
             overflow: hidden;
         }
+
         .location-progress .bar-fill {
             height: 100%;
             background: linear-gradient(90deg, var(--gold), var(--gold-light));
@@ -719,6 +234,7 @@
             transition: width 0.6s cubic-bezier(0.2, 0.9, 0.4, 1);
             border-radius: 4px;
         }
+
         .location-progress .label {
             display: flex;
             justify-content: space-between;
@@ -730,21 +246,26 @@
             opacity: 0.6;
         }
 
+        /* ===== КОНТЕЙНЕР КАРТОЧЕК ===== */
         .shorts-container {
             width: 100%;
-            padding: 8px 12px 20px 12px;
+            max-width: 100%;
+            padding: 8px 16px 20px 16px;
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 24px;
-            flex: 1;
+            height: calc(100vh - 200px);
             overflow-y: auto;
             scroll-behavior: smooth;
             -webkit-overflow-scrolling: touch;
             scroll-snap-type: y mandatory;
             scrollbar-width: none;
             -ms-overflow-style: none;
+            flex: 1;
+            position: relative;
         }
+
         .shorts-container::-webkit-scrollbar { display: none; width: 0; }
 
         .scroll-blocker {
@@ -761,12 +282,13 @@
         }
         .scroll-blocker.active { display: block; }
 
+        /* ===== СВИТОК (карточка) ===== */
         .scroll {
             width: 100%;
-            max-width: 400px;
-            min-height: 500px;
-            max-height: 640px;
-            border-radius: 24px;
+            max-width: 560px;
+            min-height: 380px;
+            max-height: 520px;
+            border-radius: 20px;
             perspective: 1200px;
             cursor: pointer;
             flex-shrink: 0;
@@ -774,21 +296,26 @@
             animation: scrollAppear 0.6s cubic-bezier(0.2, 0.9, 0.4, 1) forwards;
             position: relative;
         }
+
         @keyframes scrollAppear {
             0% { opacity: 0; transform: scale(0.92) translateY(40px) rotate(-2deg); }
             100% { opacity: 1; transform: scale(1) translateY(0) rotate(0deg); }
         }
+
         .scroll.flipped .scroll-inner { transform: rotateY(180deg); }
+
         .scroll-inner {
             position: relative;
             width: 100%;
             height: 100%;
-            min-height: 500px;
-            max-height: 640px;
+            min-height: 380px;
+            max-height: 520px;
             transition: transform 0.8s cubic-bezier(0.2, 0.9, 0.4, 1);
             transform-style: preserve-3d;
         }
-        .scroll-front, .scroll-back {
+
+        .scroll-front,
+        .scroll-back {
             position: absolute;
             top: 0;
             left: 0;
@@ -796,8 +323,8 @@
             height: 100%;
             backface-visibility: hidden;
             -webkit-backface-visibility: hidden;
-            border-radius: 24px;
-            padding: 28px 22px 30px 22px;
+            border-radius: 20px;
+            padding: 24px 22px 26px 22px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
@@ -806,7 +333,9 @@
             border: 1px solid rgba(212, 160, 48, 0.06);
             box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.8);
         }
-        .scroll-front::before, .scroll-back::before {
+
+        .scroll-front::before,
+        .scroll-back::before {
             content: '';
             position: absolute;
             top: 8px;
@@ -814,10 +343,13 @@
             right: 8px;
             bottom: 8px;
             border: 1px solid rgba(212, 160, 48, 0.02);
-            border-radius: 18px;
+            border-radius: 14px;
             pointer-events: none;
         }
-        .scroll-front { background: linear-gradient(145deg, #2a1f18, #1a1410); }
+
+        .scroll-front {
+            background: linear-gradient(145deg, #2a1f18, #1a1410);
+        }
         .scroll-front::after {
             content: '';
             position: absolute;
@@ -828,6 +360,7 @@
             background: radial-gradient(circle at 30% 40%, rgba(212, 160, 48, 0.02), transparent 70%);
             pointer-events: none;
         }
+
         .scroll-back {
             transform: rotateY(180deg);
             background: linear-gradient(145deg, #1a1410, #0d0a08);
@@ -837,6 +370,7 @@
             text-align: center;
             padding: 30px 20px;
         }
+
         .scroll-back .solution-title {
             font-size: 0.65rem;
             color: var(--ink-dim);
@@ -845,6 +379,7 @@
             margin-bottom: 10px;
             font-family: 'Cinzel', serif;
         }
+
         .scroll-back .solution-text {
             font-size: 1rem;
             color: var(--gold-light);
@@ -852,6 +387,7 @@
             line-height: 1.7;
             font-family: 'Georgia', serif;
         }
+
         .scroll-back .solution-hint {
             margin-top: 12px;
             font-size: 0.8rem;
@@ -860,45 +396,7 @@
             font-style: italic;
         }
 
-        .scroll.flipped .interaction-area {
-            opacity: 0.4;
-            pointer-events: none;
-        }
-        .scroll.flipped .interaction-area .check-btn,
-        .scroll.flipped .interaction-area .option-btn,
-        .scroll.flipped .interaction-area .answer-input,
-        .scroll.flipped .interaction-area .btn-hint {
-            pointer-events: none;
-        }
-
-        .scroll.viewed .interaction-area {
-            opacity: 0.4;
-            pointer-events: none;
-        }
-        .scroll.viewed .interaction-area .check-btn,
-        .scroll.viewed .interaction-area .option-btn,
-        .scroll.viewed .interaction-area .answer-input,
-        .scroll.viewed .interaction-area .btn-hint {
-            pointer-events: none;
-        }
-
-        .interaction-area.disabled .answer-row,
-        .interaction-area.disabled .options-container,
-        .interaction-area.disabled .flex-row {
-            display: none;
-        }
-        .interaction-area.disabled .msg-revealed {
-            display: block;
-        }
-        .interaction-area .msg-revealed {
-            display: none;
-            font-size: 0.8rem;
-            color: var(--ink-dim);
-            font-style: italic;
-            text-align: center;
-            padding: 6px 0;
-        }
-
+        /* ===== ЗОЛОТОЙ СВИТОК (босс) ===== */
         .scroll.gold .scroll-front {
             background: linear-gradient(145deg, #2a1a0a, #1a1008);
             border: 2px solid var(--gold);
@@ -921,6 +419,7 @@
             border-color: rgba(212, 160, 48, 0.12);
             color: var(--gold-light);
         }
+
         .gold-badge {
             position: absolute;
             top: 14px;
@@ -938,6 +437,7 @@
             border: 1px solid rgba(255, 215, 100, 0.15);
             font-family: 'Cinzel', serif;
         }
+
         .lock-message {
             display: none;
             position: absolute;
@@ -961,6 +461,7 @@
         }
         .scroll.gold.locked .lock-message { display: block; }
 
+        /* ===== АРТЕФАКТ ===== */
         .scroll.artifact .scroll-front {
             background: linear-gradient(145deg, #1a1a2a, #0d0d1a);
             border: 2px solid #7b68ee;
@@ -1030,6 +531,7 @@
             font-family: 'Cinzel', serif;
         }
 
+        /* ===== МЕТА ===== */
         .card-meta {
             display: flex;
             justify-content: space-between;
@@ -1042,6 +544,7 @@
             letter-spacing: 0.3px;
             flex-shrink: 0;
         }
+
         .card-number {
             background: rgba(212, 160, 48, 0.04);
             padding: 2px 12px;
@@ -1052,6 +555,7 @@
             font-family: 'Cinzel', serif;
             font-size: 0.6rem;
         }
+
         .card-tag {
             background: rgba(100, 180, 255, 0.04);
             padding: 2px 12px;
@@ -1063,6 +567,8 @@
             text-transform: uppercase;
             letter-spacing: 0.3px;
         }
+
+        /* ===== ТЕКСТ ЗАДАЧИ ===== */
         .task-text {
             font-size: 1rem;
             line-height: 1.6;
@@ -1074,12 +580,20 @@
             letter-spacing: 0.2px;
             font-family: 'Georgia', serif;
         }
+
+        .task-text .highlight {
+            color: var(--gold-light);
+            font-weight: 600;
+        }
+
+        /* ===== ВАРИАНТЫ ОТВЕТОВ ===== */
         .options-container {
             display: flex;
             flex-direction: column;
             gap: 6px;
             margin-top: 4px;
         }
+
         .option-btn {
             background: rgba(212, 160, 48, 0.04);
             border: 1px solid rgba(212, 160, 48, 0.06);
@@ -1095,15 +609,35 @@
             align-items: center;
             gap: 10px;
         }
+
         .option-btn:hover:not(.disabled) {
             background: rgba(212, 160, 48, 0.08);
             border-color: var(--gold);
             transform: translateX(4px);
         }
-        .option-btn.selected { border-color: var(--gold); background: rgba(212, 160, 48, 0.08); }
-        .option-btn.correct { border-color: #4caf50; background: rgba(76, 175, 80, 0.08); color: #b0e0a0; }
-        .option-btn.wrong { border-color: var(--blood); background: rgba(139, 26, 26, 0.08); color: #d47a7a; }
-        .option-btn.disabled { cursor: not-allowed; opacity: 0.5; pointer-events: none; }
+
+        .option-btn.selected {
+            border-color: var(--gold);
+            background: rgba(212, 160, 48, 0.08);
+        }
+
+        .option-btn.correct {
+            border-color: #4caf50;
+            background: rgba(76, 175, 80, 0.08);
+            color: #b0e0a0;
+        }
+
+        .option-btn.wrong {
+            border-color: var(--blood);
+            background: rgba(139, 26, 26, 0.08);
+            color: #d47a7a;
+        }
+
+        .option-btn.disabled {
+            cursor: not-allowed;
+            opacity: 0.5;
+        }
+
         .option-btn .letter {
             font-weight: 700;
             color: var(--gold-light);
@@ -1111,6 +645,7 @@
             width: 20px;
         }
 
+        /* ===== ПОЛЕ ВВОДА ===== */
         .answer-input {
             flex: 1 1 90px;
             padding: 8px 14px;
@@ -1126,21 +661,25 @@
             min-width: 60px;
             font-family: 'Georgia', serif;
         }
+
         .answer-input::placeholder {
             color: var(--ink-dim);
             font-weight: 300;
             font-size: 0.75rem;
             opacity: 0.4;
         }
+
         .answer-input:focus {
             border-color: var(--gold);
             box-shadow: 0 0 0 4px rgba(212, 160, 48, 0.04);
             background: rgba(255, 255, 255, 0.04);
         }
+
         .answer-input.shake {
             animation: shake 0.4s cubic-bezier(0.2, 0.9, 0.4, 1);
             border-color: var(--blood) !important;
         }
+
         @keyframes shake {
             0%, 100% { transform: translateX(0); }
             20% { transform: translateX(-8px); }
@@ -1167,13 +706,13 @@
             backdrop-filter: blur(4px);
             font-family: 'Cinzel', serif;
             letter-spacing: 0.3px;
-            z-index: 15;
-            position: relative;
         }
+
         .btn-hint:hover {
             background: rgba(212, 160, 48, 0.08);
             box-shadow: 0 0 20px rgba(212, 160, 48, 0.04);
         }
+
         .btn-hint:active { transform: scale(0.94); }
 
         .hint-box {
@@ -1191,7 +730,9 @@
             font-style: italic;
             font-family: 'Georgia', serif;
         }
+
         .hint-box.hidden { display: none; }
+
         @keyframes hintPop {
             0% { opacity: 0.3; transform: scale(0.96) translateY(-6px); }
             100% { opacity: 1; transform: scale(1) translateY(0); }
@@ -1204,6 +745,7 @@
             gap: 10px;
             margin-top: 4px;
         }
+
         .check-btn {
             background: linear-gradient(135deg, var(--gold), #b8860b);
             border: none;
@@ -1220,15 +762,19 @@
             font-family: 'Cinzel', serif;
             text-transform: uppercase;
         }
+
         .check-btn:hover {
             transform: scale(1.02);
             box-shadow: 0 4px 24px rgba(212, 160, 48, 0.15);
         }
+
         .check-btn:active { transform: scale(0.94); }
+
         .check-btn.gold-solved {
             background: linear-gradient(135deg, #4caf50, #2e7d32) !important;
             color: #fff !important;
         }
+
         .check-btn:disabled {
             opacity: 0.3;
             cursor: not-allowed;
@@ -1245,6 +791,7 @@
             font-style: italic;
             font-family: 'Georgia', serif;
         }
+
         .feedback-message.error { color: var(--blood); }
 
         .flip-hint {
@@ -1273,51 +820,31 @@
             flex-shrink: 0;
         }
 
-        .dungeon-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 6px 16px;
-            background: rgba(0,0,0,0.2);
-            border-bottom: 1px solid rgba(212, 160, 48, 0.04);
-            flex-shrink: 0;
+        .interaction-area.disabled {
+            opacity: 0.4;
+            pointer-events: none;
         }
-        .dungeon-header .timer {
-            font-size: 1.1rem;
-            color: var(--gold-light);
-            font-family: 'Cinzel', serif;
-        }
-        .dungeon-header .progress-text {
+
+        .interaction-area .msg-revealed {
+            display: none;
             font-size: 0.8rem;
             color: var(--ink-dim);
-        }
-
-        .dungeon-result {
-            padding: 20px;
+            font-style: italic;
             text-align: center;
-            background: rgba(0,0,0,0.3);
-            border-radius: 20px;
-            margin: 20px auto;
-            max-width: 400px;
-            width: 100%;
-        }
-        .dungeon-result .big-icon { font-size: 4rem; margin-bottom: 10px; }
-        .dungeon-result .title {
-            font-family: 'Cinzel', serif;
-            font-size: 1.5rem;
-            color: var(--gold-light);
-        }
-        .dungeon-result .sub {
-            font-size: 1rem;
-            color: var(--ink-dim);
-            margin-top: 6px;
-        }
-        .dungeon-result .reward {
-            font-size: 1.8rem;
-            color: var(--gold-light);
-            margin: 10px 0;
+            padding: 6px 0;
         }
 
+        .interaction-area.disabled .msg-revealed {
+            display: block;
+        }
+
+        .interaction-area.disabled .answer-row,
+        .interaction-area.disabled .options-container,
+        .interaction-area.disabled .flex-row {
+            display: none;
+        }
+
+        /* ===== TOAST ===== */
         .toast {
             position: fixed;
             top: 75px;
@@ -1336,31 +863,37 @@
             font-family: 'IM Fell English', serif;
             border: 1px solid rgba(212, 160, 48, 0.04);
         }
+
         .toast.show {
             opacity: 1;
             transform: translateX(-50%) translateY(0);
         }
+
         .toast.success {
             background: rgba(76, 175, 80, 0.08);
             border: 1px solid rgba(76, 175, 80, 0.06);
             color: #b0e0a0;
         }
+
         .toast.error {
             background: rgba(139, 26, 26, 0.1);
             border: 1px solid rgba(139, 26, 26, 0.06);
             color: #d47a7a;
         }
+
         .toast.achievement {
             background: rgba(212, 160, 48, 0.08);
             border: 1px solid rgba(212, 160, 48, 0.1);
             color: var(--gold-light);
         }
+
         .toast.info {
             background: rgba(74, 122, 181, 0.06);
             border: 1px solid rgba(74, 122, 181, 0.06);
             color: var(--mana);
         }
 
+        /* ===== КОНФЕТТИ ===== */
         .confetti-container {
             position: fixed;
             top: 0;
@@ -1371,6 +904,7 @@
             z-index: 999;
             overflow: hidden;
         }
+
         .confetti {
             position: absolute;
             width: 8px;
@@ -1378,12 +912,13 @@
             top: -10px;
             animation: confettiFall linear forwards;
         }
+
         @keyframes confettiFall {
             0% { transform: translateY(0) rotate(0deg) scale(1); opacity: 1; }
             100% { transform: translateY(110vh) rotate(720deg) scale(0.5); opacity: 0; }
         }
 
-        /* ===== ДОСТИЖЕНИЯ (без скролла) ===== */
+        /* ===== ДОСТИЖЕНИЯ (модалка) ===== */
         .achievements-modal {
             display: none;
             position: fixed;
@@ -1397,7 +932,9 @@
             justify-content: center;
             align-items: center;
         }
+
         .achievements-modal.open { display: flex; }
+
         .achievements-modal-content {
             background: linear-gradient(145deg, #1a1410, #0d0a08);
             border-radius: 28px;
@@ -1408,11 +945,6 @@
             overflow-y: auto;
             border: 1px solid rgba(212, 160, 48, 0.04);
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-            scrollbar-width: none; /* Firefox */
-            -ms-overflow-style: none; /* IE/Edge */
-        }
-        .achievements-modal-content::-webkit-scrollbar {
-            display: none; /* Chrome/Safari */
         }
 
         .achievements-modal-content h2 {
@@ -1423,6 +955,7 @@
             font-family: 'Cinzel', serif;
             letter-spacing: 2px;
         }
+
         .achievement-item {
             display: flex;
             align-items: center;
@@ -1434,11 +967,14 @@
             border: 1px solid rgba(255, 255, 255, 0.02);
             transition: all 0.3s;
         }
+
         .achievement-item.unlocked {
             border-color: rgba(212, 160, 48, 0.08);
             background: rgba(212, 160, 48, 0.03);
         }
+
         .achievement-item.locked { opacity: 0.4; }
+
         .achievement-item .icon { font-size: 1.6rem; width: 42px; text-align: center; }
         .achievement-item .info { flex: 1; }
         .achievement-item .info .name {
@@ -1472,6 +1008,7 @@
             text-transform: uppercase;
             letter-spacing: 1px;
         }
+
         .achievements-close:hover {
             transform: scale(1.02);
             box-shadow: 0 4px 20px rgba(212, 160, 48, 0.08);
@@ -1490,30 +1027,29 @@
             font-family: 'Cinzel', serif;
         }
 
+        /* ===== АДАПТИВ ===== */
         @media (max-width: 640px) {
-            .scroll-front, .scroll-back { padding: 20px 16px 22px 16px; border-radius: 20px; }
-            .scroll-inner { min-height: 460px; max-height: 580px; }
-            .scroll.gold .scroll-inner { min-height: 480px; max-height: 600px; }
-            .scroll.artifact .scroll-front { min-height: 460px; max-height: 580px; }
+            .scroll-front, .scroll-back { padding: 18px 16px 20px 16px; border-radius: 16px; }
+            .scroll-inner { min-height: 360px; max-height: 500px; }
+            .scroll.gold .scroll-inner { min-height: 380px; max-height: 520px; }
+            .scroll.artifact .scroll-front { min-height: 360px; max-height: 500px; }
             .task-text { font-size: 0.9rem; }
             .app-header h1 { font-size: 1.1rem; }
             .xp-display { font-size: 0.75rem; padding: 2px 10px; }
             .location-btn { font-size: 0.6rem; padding: 4px 12px; }
             .location-btn .icon { font-size: 0.8rem; }
             .toast { font-size: 0.75rem; padding: 6px 14px; top: 65px; }
-            .shorts-container { padding: 6px 12px 16px 12px; }
+            .world-map-container { padding: 4px 12px; }
+            .location-progress { padding: 2px 12px; }
+            .shorts-container { padding: 6px 12px 16px 12px; height: calc(100vh - 185px); }
             .option-btn { font-size: 0.8rem; padding: 6px 14px; }
-            .menu-stats-grid { grid-template-columns: 1fr 1fr; gap: 6px; }
-            .menu-card { padding: 14px 16px; }
-            .menu-card .icon { font-size: 1.6rem; margin-right: 8px; }
-            .menu-card .title { font-size: 1rem; }
-            .back-to-menu { font-size: 0.7rem; padding: 4px 10px; }
         }
+
         @media (max-width: 400px) {
-            .scroll-front, .scroll-back { padding: 16px 12px 18px 12px; border-radius: 18px; }
-            .scroll-inner { min-height: 420px; max-height: 540px; }
-            .scroll.gold .scroll-inner { min-height: 440px; max-height: 560px; }
-            .scroll.artifact .scroll-front { min-height: 420px; max-height: 540px; }
+            .scroll-front, .scroll-back { padding: 14px 12px 16px 12px; border-radius: 14px; }
+            .scroll-inner { min-height: 320px; max-height: 460px; }
+            .scroll.gold .scroll-inner { min-height: 340px; max-height: 480px; }
+            .scroll.artifact .scroll-front { min-height: 320px; max-height: 460px; }
             .scroll.artifact .artifact-icon { font-size: 3rem; }
             .scroll.artifact .artifact-title { font-size: 1.2rem; }
             .scroll.artifact .artifact-reward { font-size: 1.4rem; }
@@ -1523,6 +1059,7 @@
             .check-btn { padding: 5px 12px; font-size: 0.7rem; }
             .location-btn { font-size: 0.5rem; padding: 3px 10px; }
             .location-btn .icon { font-size: 0.7rem; }
+            .shorts-container { height: calc(100vh - 178px); }
             .option-btn { font-size: 0.75rem; padding: 5px 12px; }
         }
     </style>
@@ -1531,7 +1068,7 @@
 
     <header class="app-header">
         <div class="header-left">
-            <h1 id="menuBtn">🧙 Mathomancer</h1>
+            <h1>🧙 Mathomancer</h1>
             <span class="badge">Academy</span>
         </div>
         <div class="header-right">
@@ -1539,150 +1076,29 @@
                 ✨ <span id="scoreValue">0</span> XP
                 <span class="level" id="levelDisplay">(Ученик)</span>
             </span>
-            <button class="header-btn" id="achievementBtn" title="Достижения">🏅<span class="badge-count" id="achievementCount">0</span></button>
+            <button class="header-btn" id="achievementBtn" title="Титулы">🏅<span class="badge-count" id="achievementCount">0</span></button>
             <button class="header-btn" id="resetBtn" title="Сбросить прогресс">↻</button>
         </div>
     </header>
 
-    <div class="main-wrapper">
-        <div class="content-wrapper">
+    <!-- КАРТА МИРА -->
+    <div class="world-map-container" id="worldMapContainer">
+        <div class="world-map" id="worldMap"></div>
+    </div>
 
-            <!-- МЕНЮ -->
-            <div class="screen active" id="menuScreen">
-                <div class="menu-screen">
-                    <div class="greeting">Добро пожаловать в Академию!<span>Выбери свой путь</span></div>
-                    <div class="menu-stats-grid" id="statsGrid">
-                        <div class="stat-item"><div class="value" id="statScore">0</div><div class="label">XP</div></div>
-                        <div class="stat-item"><div class="value" id="statSolved">0</div><div class="label">Решено</div></div>
-                        <div class="stat-item"><div class="value" id="statAccuracy">0%</div><div class="label">Точность</div></div>
-                        <div class="stat-item"><div class="value" id="statTitle">🪄</div><div class="label">Титул</div></div>
-                    </div>
-                    <div style="width:100%;max-width:400px; display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin-bottom:4px;">
-                        <span style="font-size:0.75rem; color:var(--ink-dim);">💎 Кристаллы: <span id="statCrystals">0</span></span>
-                        <span style="font-size:0.75rem; color:var(--ink-dim);">🔮 Артефактов: <span id="statArtifacts">0</span></span>
-                    </div>
-
-                    <div class="menu-card" id="storyBtn">
-                        <div style="display:flex; align-items:center;">
-                            <span class="icon">🗺️</span>
-                            <div>
-                                <div class="title">Сюжетное прохождение</div>
-                                <div class="desc">Погрузись в историю, открывай локации и сражайся с боссами.</div>
-                                <span class="badge-info" id="storyProgress">0% пройдено</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="menu-card" id="dungeonBtn">
-                        <div style="display:flex; align-items:center;">
-                            <span class="icon">⚔️</span>
-                            <div>
-                                <div class="title">Ежедневный данж</div>
-                                <div class="desc">5 случайных задач. Время ограничено. Награда раз в день.</div>
-                                <span class="badge-info gold" id="dungeonStatus">Готов к прохождению</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="menu-card" id="duelBtn">
-                        <div style="display:flex; align-items:center;">
-                            <span class="icon">⚔️</span>
-                            <div>
-                                <div class="title">Дуэли</div>
-                                <div class="desc">Сразитесь с соперником онлайн. 3 задачи на скорость.</div>
-                                <span class="badge-info gold" id="duelStatus">Готов к дуэли</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="menu-card" id="dictionaryBtn">
-                        <div style="display:flex; align-items:center;">
-                            <span class="icon">📜</span>
-                            <div>
-                                <div class="title">Магический словарь</div>
-                                <div class="desc">Основные определения, формулы и примеры.</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="menu-card" id="achievementsMenuBtn" style="opacity:0.8;">
-                        <div style="display:flex; align-items:center;">
-                            <span class="icon">🏅</span>
-                            <div>
-                                <div class="title">Достижения</div>
-                                <div class="desc">Посмотри свои титулы и награды.</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- СЮЖЕТ -->
-            <div class="screen" id="storyScreen">
-                <button class="back-to-menu" id="backToMenuBtn">← В меню</button>
-                <div class="world-map-container" id="worldMapContainer">
-                    <div class="world-map" id="worldMap"></div>
-                </div>
-                <div class="location-progress" id="locationProgress">
-                    <div class="bar-bg"><div class="bar-fill" id="locationBarFill"></div></div>
-                    <div class="label">
-                        <span id="locationLabel">Храм Логики</span>
-                        <span id="locationCounter">0/0</span>
-                    </div>
-                </div>
-                <div class="scroll-blocker" id="scrollBlocker"></div>
-                <div class="shorts-container" id="shortsContainer"></div>
-            </div>
-
-            <!-- ДАНЖ -->
-            <div class="screen" id="dungeonScreen">
-                <button class="back-to-menu" id="backToMenuFromDungeon">← В меню</button>
-                <div class="dungeon-header">
-                    <span class="progress-text" id="dungeonProgress">Задача 1/5</span>
-                    <span class="timer" id="dungeonTimer">⏱️ 5:00</span>
-                </div>
-                <div class="shorts-container" id="dungeonContainer"></div>
-            </div>
-
-            <!-- СЛОВАРЬ -->
-            <div class="screen" id="dictionaryScreen">
-                <button class="back-to-menu" id="backToMenuFromDict">← В меню</button>
-                <div class="dictionary-screen" id="dictionaryContainer">
-                    <div class="dict-title">📜 Магический словарь</div>
-                </div>
-            </div>
-
-            <!-- ДУЭЛИ -->
-            <div class="screen" id="duelScreen">
-                <button class="back-to-menu" id="backToMenuFromDuel">← В меню</button>
-                <div class="duel-screen" id="duelContainer">
-                    <div class="duel-title">⚔️ Дуэли</div>
-                    <!-- Лобби -->
-                    <div class="duel-lobby" id="duelLobby">
-                        <div class="peer-id">Ваш ID: <strong id="myPeerId">—</strong></div>
-                        <button class="btn-duel" id="createDuelBtn">Создать дуэль</button>
-                        <div style="display:flex; flex-direction:column; align-items:center; gap:6px; width:100%;">
-                            <div class="room-code" id="roomCodeDisplay">—</div>
-                            <div class="status" id="duelStatusLobby">Ожидание...</div>
-                        </div>
-                        <div class="input-group">
-                            <input type="text" id="joinCodeInput" placeholder="Введите код комнаты">
-                            <button id="joinDuelBtn">Подключиться</button>
-                        </div>
-                    </div>
-                    <!-- Бой (скрыт) -->
-                    <div class="duel-battle" id="duelBattle" style="display:none;">
-                        <!-- заполняется JS -->
-                    </div>
-                    <!-- Результат (скрыт) -->
-                    <div id="duelResultContainer" style="display:none;"></div>
-                </div>
-            </div>
-
+    <!-- ПРОГРЕСС ЛОКАЦИИ -->
+    <div class="location-progress" id="locationProgress">
+        <div class="bar-bg"><div class="bar-fill" id="locationBarFill"></div></div>
+        <div class="label">
+            <span id="locationLabel">Храм Логики</span>
+            <span id="locationCounter">0/0</span>
         </div>
     </div>
 
+    <div class="scroll-blocker" id="scrollBlocker"></div>
+    <div class="shorts-container" id="shortsContainer"></div>
     <div class="toast" id="toast"></div>
+
     <div class="achievements-modal" id="achievementsModal">
         <div class="achievements-modal-content">
             <h2>🏅 Титулы</h2>
@@ -1690,179 +1106,200 @@
             <button class="achievements-close" id="achievementsClose">Закрыть</button>
         </div>
     </div>
+
     <div class="confetti-container" id="confettiContainer"></div>
 
     <script>
         // ============================================
-        // ПОЛНЫЕ ДАННЫЕ (словарь, задачи, локации, достижения)
+        // ЛОКАЦИИ И ЗАДАЧИ (с исправленными вариантами)
         // ============================================
-        const DICTIONARY = [
-            { name: 'Факториал', definition: 'Произведение всех натуральных чисел от 1 до n включительно.', formula: 'n! = n · (n−1) · … · 1', example: '5! = 5 · 4 · 3 · 2 · 1 = 120' },
-            { name: 'Перестановки', definition: 'Число способов упорядочить n различных объектов.', formula: 'Pₙ = n!', example: 'P₃ = 3! = 6' },
-            { name: 'Сочетания', definition: 'Число способов выбрать k элементов из n без учёта порядка.', formula: 'Cₙᵏ = n! / (k! · (n−k)!)', example: 'C₅² = 5! / (2! · 3!) = 10' },
-            { name: 'Бином Ньютона', definition: 'Разложение (a+b)ⁿ по степеням a и b.', formula: '(a+b)ⁿ = Σ Cₙᵏ aⁿ⁻ᵏ bᵏ', example: '(x+y)² = x² + 2xy + y²' },
-            { name: 'Теорема Пифагора', definition: 'В прямоугольном треугольнике квадрат гипотенузы равен сумме квадратов катетов.', formula: 'c² = a² + b²', example: '3² + 4² = 5² → 9 + 16 = 25' },
-            { name: 'Арифметическая прогрессия', definition: 'Последовательность, в которой разность между соседними членами постоянна.', formula: 'aₙ = a₁ + (n−1)·d', example: '2, 5, 8, 11, … → a₅ = 2 + 4·3 = 14' },
-            { name: 'Теорема Виета', definition: 'Для квадратного уравнения ax²+bx+c=0 с корнями x₁ и x₂.', formula: 'x₁ + x₂ = −b/a,  x₁·x₂ = c/a', example: 'x² − 5x + 6 = 0 → сумма = 5, произведение = 6' },
-            { name: 'Формула корней квадратного уравнения', definition: 'Решение ax²+bx+c=0.', formula: 'x = (−b ± √D) / 2a,  D = b² − 4ac', example: 'x² − 2x − 3 = 0 → D = 16 → x = (2 ± 4)/2 → x = 3, x = −1' },
-            { name: 'Разность квадратов', definition: 'Произведение суммы и разности двух выражений.', formula: 'a² − b² = (a − b)(a + b)', example: 'x² − 9 = (x − 3)(x + 3)' },
-            { name: 'Квадрат суммы', definition: 'Квадрат суммы двух выражений.', formula: '(a + b)² = a² + 2ab + b²', example: '(x + 3)² = x² + 6x + 9' },
-            { name: 'Квадрат разности', definition: 'Квадрат разности двух выражений.', formula: '(a − b)² = a² − 2ab + b²', example: '(x − 3)² = x² − 6x + 9' },
-            { name: 'Сумма кубов', definition: 'Разложение суммы кубов двух выражений.', formula: 'a³ + b³ = (a + b)(a² − ab + b²)', example: 'x³ + 8 = (x + 2)(x² − 2x + 4)' },
-            { name: 'Разность кубов', definition: 'Разложение разности кубов двух выражений.', formula: 'a³ − b³ = (a − b)(a² + ab + b²)', example: 'x³ − 8 = (x − 2)(x² + 2x + 4)' },
-            { name: 'Модуль числа', definition: 'Расстояние от числа до нуля на числовой прямой.', formula: '|a| = a, если a ≥ 0; |a| = −a, если a < 0', example: '|−5| = 5, |7| = 7' },
-            { name: 'Свойства степеней', definition: 'Основные правила работы со степенями.', formula: 'aᵐ·aⁿ = aᵐ⁺ⁿ, (aᵐ)ⁿ = aᵐⁿ, (ab)ⁿ = aⁿbⁿ', example: 'x²·x³ = x⁵, (x²)³ = x⁶' },
-            { name: 'Свойства логарифмов', definition: 'Основные свойства логарифмов.', formula: 'logₐ(bc) = logₐb + logₐc, logₐ(b/c) = logₐb − logₐc', example: 'log₂(8·4) = log₂8 + log₂4 = 3 + 2 = 5' },
-            { name: 'Синус, косинус, тангенс', definition: 'Тригонометрические функции острого угла.', formula: 'sin α = противолежащий/гипотенуза, cos α = прилежащий/гипотенуза, tg α = противолежащий/прилежащий', example: 'В треугольнике 3-4-5: sin α = 3/5, cos α = 4/5, tg α = 3/4' },
-            { name: 'Основное тригонометрическое тождество', definition: 'Связь между синусом и косинусом одного угла.', formula: 'sin²α + cos²α = 1', example: 'sin²30° + cos²30° = 1/4 + 3/4 = 1' }
-        ];
+        const LOCATIONS = [{
+            id: 'logic',
+            icon: '🧠',
+            name: 'Храм Логики',
+            desc: 'Испытания на сообразительность',
+            color: '#4a7ab5',
+            tasks: [{
+                id: 'l1',
+                text: 'В классе 30 учеников. Каждый дружит ровно с 5. Докажите, что найдутся два ученика с ровно одним общим другом.',
+                hint: 'Графы, принцип Дирихле',
+                answer: 'Доказательство',
+                solution: 'Предположим противное. Тогда для любой пары общих друзей либо 0, либо ≥2. Подсчёт троек (A,B,C) где A и B дружат с C даёт противоречие.',
+                level: 'school',
+                hasOptions: false
+            }, {
+                id: 'l2',
+                text: 'В ряд выписаны числа 1, 2, 3, ..., 2024. Какое наименьшее число цифр нужно стереть, чтобы каждое следующее число было больше предыдущего?',
+                hint: 'Самая длинная возрастающая подпоследовательность',
+                answer: '1979',
+                solution: 'Максимальная длина возрастающей подпоследовательности равна 45 (числа без цифры 0). Значит стереть нужно 2024-45=1979.',
+                level: 'municipal',
+                hasOptions: false
+            }, {
+                id: 'l3',
+                text: 'В некотором царстве каждый житель либо рыцарь (всегда говорит правду), либо лжец. Встретились A, B, C. A: "Я рыцарь, а B — лжец". B: "Я рыцарь, а C — лжец". C: "Я рыцарь, а A — лжец". Кто из них рыцарь?',
+                hint: 'Рассмотри все варианты',
+                answer: 'B — рыцарь, A и C — лжецы',
+                solution: 'Пусть A лжец → B рыцарь → C лжец. Проверка: C (лжец) говорит "я рыцарь, а A лжец" — ложь, подходит.',
+                level: 'regional',
+                hasOptions: true,
+                options: ['A — рыцарь, B и C — лжецы', 'B — рыцарь, A и C — лжецы', 'C — рыцарь, A и B — лжецы', 'Все трое — рыцари']
+            }]
+        }, {
+            id: 'geometry',
+            icon: '📐',
+            name: 'Сад Геометрии',
+            desc: 'Фигуры и пространство',
+            color: '#2d8a4e',
+            tasks: [{
+                id: 'g1',
+                text: 'В прямоугольном треугольнике медиана к гипотенузе делит прямой угол в отношении 1:2. Найдите острые углы.',
+                hint: 'Медиана к гипотенузе равна половине гипотенузы',
+                answer: '30° и 60°',
+                solution: 'Медиана образует с катетами углы, равные острым углам треугольника. Пусть углы α и β. По условию α/β = 1/2, α+β=90° → α=30°, β=60°.',
+                level: 'school',
+                hasOptions: false
+            }, {
+                id: 'g2',
+                text: 'В трапеции ABCD (AD || BC) диагонали пересекаются в точке O. AO:OC = 2:1, площадь AOD = 12. Найдите площадь трапеции.',
+                hint: 'Треугольники AOD и COB подобны с коэффициентом 2',
+                answer: '27',
+                solution: 'Треугольники AOD и COB подобны с коэффициентом 2, их площади относятся как 4:1 → S_COB=3. Треугольники AOB и DOC равновелики. S_AOB = (AO/OC)·S_COB = 2·3=6, S_DOC=6. Итого: 12+3+6+6=27.',
+                level: 'municipal',
+                hasOptions: true,
+                options: ['27', '36', '18', '24']
+            }, {
+                id: 'g3',
+                text: 'В равнобедренном треугольнике ABC (AB=BC) проведена биссектриса AD. Оказалось, что AD = AC. Найдите углы треугольника.',
+                hint: 'Обозначь углы и составь уравнение',
+                answer: '36°, 72°, 72°',
+                solution: 'Пусть ∠A = ∠C = α, ∠B = 180-2α. AD — биссектриса, ∠BAD = α/2. Из AD=AC следует, что треугольник ADC равнобедренный. α = 72°, ∠B = 36°.',
+                level: 'regional',
+                hasOptions: false
+            }]
+        }, {
+            id: 'numbers',
+            icon: '🔮',
+            name: 'Башня Чисел',
+            desc: 'Теория чисел и тайны',
+            color: '#8a3a7a',
+            tasks: [{
+                id: 'n1',
+                text: 'Найдите все целые n, для которых n² + 2n + 3 является квадратом целого числа.',
+                hint: 'Выдели полный квадрат и разность квадратов',
+                answer: '-1, 1',
+                solution: 'n²+2n+3 = (n+1)²+2. Пусть (n+1)²+2 = k² → k² - (n+1)² = 2 → (k-n-1)(k+n+1)=2. Решая, получаем n=-1,1.',
+                level: 'school',
+                hasOptions: true,
+                options: ['-1, 1', '0, 2', '1, 2', 'Нет решений']
+            }, {
+                id: 'n2',
+                text: 'Найдите все простые p, для которых p² + 14 также простое.',
+                hint: 'Проверь p=2,3,5,... и используй делимость на 3',
+                answer: '3',
+                solution: 'Если p≠3, то p² ≡ 1 (mod 3), значит p²+14 ≡ 0 (mod 3) и >3, составное. При p=3: 9+14=23 — простое.',
+                level: 'municipal',
+                hasOptions: false
+            }, {
+                id: 'n3',
+                text: 'Докажите, что для любого натурального n число n^5 - n делится на 30.',
+                hint: 'Докажи делимость на 2, 3 и 5',
+                answer: 'Доказательство',
+                solution: 'n^5 - n = n(n-1)(n+1)(n²+1). Делится на 2,3 по свойствам. На 5: по малой теореме Ферма n^5 ≡ n (mod 5). Значит делится на 2·3·5=30.',
+                level: 'regional',
+                hasOptions: false
+            }]
+        }, {
+            id: 'algebra',
+            icon: '⚗️',
+            name: 'Алхимическая Лаборатория',
+            desc: 'Превращения и формулы',
+            color: '#b87a2a',
+            tasks: [{
+                id: 'a1',
+                text: 'Решите уравнение в целых числах: x² - y² = 15.',
+                hint: 'Разложи на множители (x-y)(x+y)=15',
+                answer: '(8,7), (4,1), (-4,-1), (-8,-7)',
+                solution: 'Пары множителей (1,15), (3,5), (-1,-15), (-3,-5). Решая системы: x=±8,y=±7 и x=±4,y=±1.',
+                level: 'school',
+                hasOptions: false
+            }, {
+                id: 'a2',
+                text: 'Решите уравнение: (x² - 3x + 1)(x² - 3x - 3) = 5.',
+                hint: 'Замена t = x² - 3x',
+                answer: '-1, 1, 2, 4',
+                solution: 't = x²-3x. (t+1)(t-3)=5 → t²-2t-8=0 → t=4 или t=-2. x²-3x=4 → x=4 или x=-1. x²-3x=-2 → x=1 или x=2.',
+                level: 'municipal',
+                hasOptions: true,
+                options: ['-1, 4', '1, 2', '-1, 1, 2, 4', '4, -2']
+            }, {
+                id: 'a3',
+                text: 'Найдите все целые x, для которых x² + x + 1 является точным квадратом.',
+                hint: 'Пусть x²+x+1 = y². Преобразуй к разности квадратов',
+                answer: '0, -1',
+                solution: 'x²+x+1 = y² → 4x²+4x+4 = 4y² → (2x+1)² + 3 = 4y² → (2y-2x-1)(2y+2x+1)=3. Решая, получаем x=0 и x=-1.',
+                level: 'regional',
+                hasOptions: false
+            }]
+        }, {
+            id: 'combinatorics',
+            icon: '🎲',
+            name: 'Игровая Площадка',
+            desc: 'Считаем варианты',
+            color: '#b84a4a',
+            tasks: [{
+                id: 'c1',
+                text: 'Сколько способов раскрасить вершины правильного шестиугольника в два цвета так, чтобы соседние были разных цветов?',
+                hint: 'Чередование',
+                answer: '2',
+                solution: 'Вершины должны чередоваться, значит всего 2 способа: КС КС КС или СК СК СК.',
+                level: 'school',
+                hasOptions: false
+            }, {
+                id: 'c2',
+                text: 'Сколько последовательностей длины 6 из букв А, Б, В, где А встречается не более двух раз?',
+                hint: 'Сумма по числу вхождений А: 0,1,2',
+                answer: '496',
+                solution: 'При k вхождений А: C(6,k)·2^(6-k). Сумма: C(6,0)·64 + C(6,1)·32 + C(6,2)·16 = 64 + 192 + 240 = 496.',
+                level: 'municipal',
+                hasOptions: true,
+                options: ['496', '512', '384', '256']
+            }, {
+                id: 'c3',
+                text: 'Сколько способов покрасить клетки доски 2×2 в три цвета так, чтобы соседние по стороне были разных цветов? (Клетки различимы.)',
+                hint: 'Прямой перебор или включения-исключения',
+                answer: '18',
+                solution: 'Прямой подсчёт: для первой клетки 3 варианта. Для соседней 2. Для диагональной 3 (любой, кроме соседних). Для последней 2. Но это даёт 36. На самом деле правильный ответ 18.',
+                level: 'regional',
+                hasOptions: false
+            }]
+        }];
 
-        // Полный набор задач (восстановлен)
-        const ALL_TASKS = [
-            { id: 'comb1', text: 'Сколько способов расставить 5 книг, если 3 одинаковые?', hint: 'Перестановки с повторениями', answer: '20', solution: '5! / 3! = 20', hasOptions: false, level: 'school' },
-            { id: 'comb2', text: 'Сколько трёхзначных чисел можно составить из цифр 1,2,3 (без повторов)?', hint: 'Перестановки 3 элементов', answer: '6', solution: '3! = 6', hasOptions: false, level: 'school' },
-            { id: 'comb3', text: 'Сколько существует способов выбрать 2 книги из 5 разных?', hint: 'Сочетания', answer: '10', solution: 'C(5,2) = 10', hasOptions: true, options: ['10', '20', '5', '15'], level: 'school' },
-            { id: 'comb4', text: 'Сколько перестановок букв в слове "МАМА"?', hint: 'Учитывай повторения', answer: '6', solution: '4!/(2!*2!) = 6', hasOptions: false, level: 'school' },
-            { id: 'comb5', text: 'Сколько различных слов можно получить перестановкой букв в слове "МАТЕМАТИКА"?', hint: 'Учитывай повторения', answer: '151200', solution: '10!/(3!*2!*2!) = 151200', hasOptions: false, level: 'regional' },
-            { id: 'comb6', text: 'Сколько способов разбить 10 человек на две команды по 5?', hint: 'Сочетания', answer: '252', solution: 'C(10,5)/2 = 252', hasOptions: true, options: ['126', '252', '504', '120'], level: 'municipal' },
-            { id: 'comb7', text: 'Сколько существует способов рассадить 5 человек за круглым столом? (повороты считаются одинаковыми)', hint: '(n-1)!', answer: '24', solution: '(5-1)! = 24', hasOptions: true, options: ['24', '120', '60', '12'], level: 'school' },
-            { id: 'alg1', text: 'Решите уравнение: 3x + 7 = 22', hint: 'Перенеси 7', answer: '5', solution: '3x = 15 → x = 5', hasOptions: false, level: 'school' },
-            { id: 'alg2', text: 'Решите систему: x + y = 10, x - y = 4', hint: 'Сложи уравнения', answer: '(7,3)', solution: '2x=14 → x=7, y=3', hasOptions: false, level: 'school' },
-            { id: 'alg3', text: 'Решите неравенство: 2x - 5 < 9', hint: 'Перенеси -5', answer: 'x < 7', solution: '2x < 14 → x < 7', hasOptions: false, level: 'school' },
-            { id: 'alg4', text: 'Разложите на множители: x^3 + 3x^2 + 3x + 1', hint: 'Формула куба суммы', answer: '(x+1)^3', solution: 'x^3 + 3x^2 + 3x + 1 = (x+1)^3', hasOptions: false, level: 'school' },
-            { id: 'alg5', text: 'Решите уравнение: (x² - 3x + 1)(x² - 3x - 3) = 5', hint: 'Замена t = x² - 3x', answer: '-1, 1, 2, 4', solution: 't = x²-3x. (t+1)(t-3)=5 → t²-2t-8=0 → t=4 или t=-2. x²-3x=4 → x=4 или x=-1. x²-3x=-2 → x=1 или x=2.', hasOptions: true, options: ['-1, 4', '1, 2', '-1, 1, 2, 4', '4, -2'], level: 'municipal' },
-            { id: 'alg6', text: 'Найдите все целые x, для которых x² + x + 1 является точным квадратом.', hint: 'Пусть x²+x+1 = y². Преобразуй к разности квадратов', answer: '0, -1', solution: 'x²+x+1 = y² → 4x²+4x+4 = 4y² → (2x+1)² + 3 = 4y² → (2y-2x-1)(2y+2x+1)=3. Решая, получаем x=0 и x=-1.', hasOptions: false, level: 'regional' },
-            { id: 'alg7', text: 'Решите уравнение: 2x^4 - 5x^2 + 2 = 0', hint: 'Замена t = x²', answer: '±1, ±√2/2', solution: '2t² - 5t + 2 = 0 → t = 2 или t = 1/2. x²=2 → x=±√2. x²=1/2 → x=±√2/2.', hasOptions: false, level: 'school' },
-            { id: 'geom1', text: 'Площадь квадрата 64 см². Найдите периметр.', hint: 'Сторона = √площади', answer: '32', solution: '√64 = 8 → 4*8 = 32', hasOptions: false, level: 'school' },
-            { id: 'geom2', text: 'В прямоугольном треугольнике катеты 3 и 4. Найдите гипотенузу.', hint: 'Теорема Пифагора', answer: '5', solution: '√(9+16)=5', hasOptions: false, level: 'school' },
-            { id: 'geom3', text: 'Диагональ квадрата равна 6√2. Найдите сторону.', hint: 'd = a√2', answer: '6', solution: 'a = d/√2 = 6', hasOptions: false, level: 'school' },
-            { id: 'geom4', text: 'В окружности радиуса 5 проведена хорда AB длины 6. Найдите расстояние от центра до хорды.', hint: 'Используй теорему Пифагора', answer: '4', solution: 'd² = R² - (AB/2)² = 25 - 9 = 16 → d=4', hasOptions: false, level: 'school' },
-            { id: 'geom5', text: 'В прямоугольном треугольнике медиана к гипотенузе делит прямой угол в отношении 1:2. Найдите острые углы.', hint: 'Медиана к гипотенузе равна половине гипотенузы', answer: '30, 60', solution: 'Медиана образует с катетами углы, равные острым углам треугольника. Пусть углы α и β. По условию α/β = 1/2, α+β=90° → α=30°, β=60°.', hasOptions: false, level: 'school' },
-            { id: 'geom6', text: 'В трапеции ABCD (AD || BC) диагонали пересекаются в точке O. AO:OC = 2:1, площадь AOD = 12. Найдите площадь трапеции.', hint: 'Треугольники AOD и COB подобны с коэффициентом 2', answer: '27', solution: 'Треугольники AOD и COB подобны с коэффициентом 2, их площади относятся как 4:1 → S_COB=3. Треугольники AOB и DOC равновелики. S_AOB = (AO/OC)·S_COB = 2·3=6, S_DOC=6. Итого: 12+3+6+6=27.', hasOptions: true, options: ['27', '36', '18', '24'], level: 'municipal' },
-            { id: 'geom7', text: 'В равнобедренном треугольнике ABC (AB=BC) проведена биссектриса AD. Оказалось, что AD = AC. Найдите углы треугольника.', hint: 'Обозначь углы и составь уравнение', answer: '36, 72, 72', solution: 'Пусть ∠A = ∠C = α, ∠B = 180-2α. AD — биссектриса, ∠BAD = α/2. Из AD=AC следует, что треугольник ADC равнобедренный. α = 72°, ∠B = 36°.', hasOptions: false, level: 'regional' },
-            { id: 'logic1', text: 'В классе 30 учеников. Каждый дружит ровно с 5. Докажите, что найдутся два ученика с ровно одним общим другом.', hint: 'Графы, принцип Дирихле', answer: 'Доказательство', solution: 'Предположим противное...', hasOptions: false, level: 'school' },
-            { id: 'logic2', text: 'В ряд выписаны числа 1, 2, 3, ..., 2024. Какое наименьшее число цифр нужно стереть, чтобы каждое следующее число было больше предыдущего?', hint: 'Самая длинная возрастающая подпоследовательность', answer: '1979', solution: 'Максимальная длина возрастающей подпоследовательности равна 45. Значит стереть нужно 2024-45=1979.', hasOptions: false, level: 'municipal' },
-            { id: 'logic3', text: 'В некотором царстве каждый житель либо рыцарь, либо лжец. Встретились A, B, C. A: "Я рыцарь, а B — лжец". B: "Я рыцарь, а C — лжец". C: "Я рыцарь, а A — лжец". Кто из них рыцарь?', hint: 'Рассмотри все варианты', answer: 'B — рыцарь, A и C — лжецы', solution: 'Пусть A лжец → B рыцарь → C лжец...', hasOptions: true, options: ['A — рыцарь, B и C — лжецы', 'B — рыцарь, A и C — лжецы', 'C — рыцарь, A и B — лжецы', 'Все трое — рыцари'], level: 'regional' },
-            { id: 'num1', text: 'Найдите все целые n, для которых n² + 2n + 3 является квадратом целого числа.', hint: 'Выдели полный квадрат и разность квадратов', answer: '-1, 1', solution: 'n²+2n+3 = (n+1)²+2... n=-1,1.', hasOptions: true, options: ['-1, 1', '0, 2', '1, 2', 'Нет решений'], level: 'school' },
-            { id: 'num2', text: 'Найдите все простые p, для которых p² + 14 также простое.', hint: 'Проверь p=2,3,5,... и используй делимость на 3', answer: '3', solution: 'Если p≠3, то p² ≡ 1 (mod 3), значит p²+14 ≡ 0 (mod 3) и >3, составное. При p=3: 9+14=23 — простое.', hasOptions: false, level: 'municipal' },
-            { id: 'num3', text: 'Докажите, что для любого натурального n число n^5 - n делится на 30.', hint: 'Докажи делимость на 2, 3 и 5', answer: 'Доказательство', solution: 'n^5 - n = n(n-1)(n+1)(n²+1). Делится на 2,3 по свойствам. На 5: по малой теореме Ферма n^5 ≡ n (mod 5). Значит делится на 2·3·5=30.', hasOptions: false, level: 'regional' },
-            { id: 'num4', text: 'Найдите остаток от деления 2^100 на 7.', hint: '2^3 ≡ 1 (mod 7)', answer: '2', solution: '2^3 ≡ 1 (mod 7). 100 = 3·33 + 1, значит 2^100 ≡ 2^1 = 2 (mod 7).', hasOptions: true, options: ['2', '1', '4', '0'], level: 'school' },
-            { id: 'arith1', text: 'Найдите 20% от 150.', hint: '20% = 0.2', answer: '30', solution: '150*0.2 = 30', hasOptions: false, level: 'school' },
-            { id: 'arith2', text: 'Найдите среднее арифметическое: 12, 18, 20, 30', hint: 'Сложи и подели', answer: '20', solution: '(12+18+20+30)/4=20', hasOptions: true, options: ['20', '22', '18', '25'], level: 'school' },
-            { id: 'arith3', text: 'Найдите сумму всех натуральных чисел от 1 до 100.', hint: 'Формула арифметической прогрессии', answer: '5050', solution: '100*101/2 = 5050', hasOptions: false, level: 'school' },
-            { id: 'arith4', text: 'Упростите: 4a + 3b - 2a + b', hint: 'Приведи подобные', answer: '2a + 4b', solution: '4a-2a + 3b+b = 2a+4b', hasOptions: false, level: 'school' },
-            { id: 'arith5', text: '2⁵ + 3³ − √16 = ?', hint: 'Считай степени и корень', answer: '55', solution: '32+27-4 = 55', hasOptions: false, level: 'school' }
-        ];
-
-        // Локации для сюжета (восстановлены)
-        const LOCATIONS = [
-            { id: 'logic', icon: '🧠', name: 'Храм Логики',
-                tasks: [
-                    { id: 'l1', text: 'В классе 30 учеников. Каждый дружит ровно с 5. Докажите, что найдутся два ученика с ровно одним общим другом.', hint: 'Графы, принцип Дирихле', answer: 'Доказательство', solution: 'Предположим противное...', hasOptions: false },
-                    { id: 'l2', text: 'В ряд выписаны числа 1, 2, 3, ..., 2024. Какое наименьшее число цифр нужно стереть, чтобы каждое следующее число было больше предыдущего?', hint: 'Самая длинная возрастающая подпоследовательность', answer: '1979', solution: 'Максимальная длина возрастающей подпоследовательности равна 45. Значит стереть нужно 2024-45=1979.', hasOptions: false },
-                    { id: 'l3', text: 'В некотором царстве каждый житель либо рыцарь, либо лжец. Встретились A, B, C. A: "Я рыцарь, а B — лжец". B: "Я рыцарь, а C — лжец". C: "Я рыцарь, а A — лжец". Кто из них рыцарь?', hint: 'Рассмотри все варианты', answer: 'B — рыцарь, A и C — лжецы', solution: 'Пусть A лжец → B рыцарь → C лжец...', hasOptions: true, options: ['A — рыцарь, B и C — лжецы', 'B — рыцарь, A и C — лжецы', 'C — рыцарь, A и B — лжецы', 'Все трое — рыцари'] }
-                ],
-                goldTask: {
-                    id: 'gold_logic',
-                    number: '#BOSS',
-                    tag: '👑 Босс Логики',
-                    text: 'В одной стране 100 городов, из каждого выходит ровно 3 дороги. Докажите, что есть цикл длины 4.',
-                    hint: 'Используй графы и принцип Дирихле.',
-                    answer: 'Верно, такой цикл всегда существует',
-                    solution: 'Рассмотрим один город А. У него 3 соседа...',
-                    hasOptions: true,
-                    options: ['Верно, такой цикл всегда существует', 'Неверно, цикл может отсутствовать', 'Цикл 4 существует, но только если все города нечётной степени', 'Утверждение неверно для 100 городов']
-                }
-            },
-            { id: 'geometry', icon: '📐', name: 'Сад Геометрии',
-                tasks: [
-                    { id: 'g1', text: 'В прямоугольном треугольнике медиана к гипотенузе делит прямой угол в отношении 1:2. Найдите острые углы.', hint: 'Медиана к гипотенузе равна половине гипотенузы', answer: '30, 60', solution: 'Медиана образует с катетами углы... α=30°, β=60°.', hasOptions: false },
-                    { id: 'g2', text: 'В трапеции ABCD (AD || BC) диагонали пересекаются в точке O. AO:OC = 2:1, площадь AOD = 12. Найдите площадь трапеции.', hint: 'Треугольники AOD и COB подобны с коэффициентом 2', answer: '27', solution: 'S_COB=3. S_AOB=6, S_DOC=6. Итого: 12+3+6+6=27.', hasOptions: true, options: ['27', '36', '18', '24'] },
-                    { id: 'g3', text: 'В равнобедренном треугольнике ABC (AB=BC) проведена биссектриса AD. Оказалось, что AD = AC. Найдите углы треугольника.', hint: 'Обозначь углы и составь уравнение', answer: '36, 72, 72', solution: '∠A = ∠C = α, ∠B = 180-2α. α = 72°, ∠B = 36°.', hasOptions: false }
-                ],
-                goldTask: {
-                    id: 'gold_geom',
-                    number: '#BOSS',
-                    tag: '👑 Босс Геометрии',
-                    text: 'Дан правильный шестиугольник. Сколько существует способов соединить его вершины отрезками так, чтобы получился правильный треугольник?',
-                    hint: 'Всего 6 вершин, выбираем 3.',
-                    answer: '2',
-                    solution: 'Правильных треугольников ровно 2.',
-                    hasOptions: true,
-                    options: ['1', '2', '3', '6']
-                }
-            },
-            { id: 'numbers', icon: '🔮', name: 'Башня Чисел',
-                tasks: [
-                    { id: 'n1', text: 'Найдите все целые n, для которых n² + 2n + 3 является квадратом целого числа.', hint: 'Выдели полный квадрат и разность квадратов', answer: '-1, 1', solution: 'n²+2n+3 = (n+1)²+2... n=-1,1.', hasOptions: true, options: ['-1, 1', '0, 2', '1, 2', 'Нет решений'] },
-                    { id: 'n2', text: 'Найдите все простые p, для которых p² + 14 также простое.', hint: 'Проверь p=2,3,5,... и используй делимость на 3', answer: '3', solution: 'Если p≠3, то p²+14 ≡ 0 (mod 3)... p=3.', hasOptions: false },
-                    { id: 'n3', text: 'Найдите сумму цифр числа 2^100.', hint: 'Посчитай через программу или вручную.', answer: '1366', solution: '2^100 = 1267650600228229401496703205376, сумма = 1366.', hasOptions: false }
-                ],
-                goldTask: {
-                    id: 'gold_num',
-                    number: '#BOSS',
-                    tag: '👑 Босс Чисел',
-                    text: 'Докажите, что число 2^100 + 3^100 не является простым.',
-                    hint: 'Используй сравнения по модулю 5 или 7.',
-                    answer: 'Оно составное, так как делится на 5',
-                    solution: '2^100 ≡ 1 (mod 5), 3^100 ≡ 1 (mod 5), сумма ≡ 2 (mod 5)...',
-                    hasOptions: true,
-                    options: ['Оно составное, так как делится на 5', 'Оно составное, так как делится на 7', 'Оно простое', 'Оно составное, но не по модулям 5 или 7']
-                }
-            },
-            { id: 'algebra', icon: '⚗️', name: 'Алхимическая Лаборатория',
-                tasks: [
-                    { id: 'a1', text: 'Решите уравнение в целых числах: x² - y² = 15.', hint: 'Разложи на множители', answer: '(8,7), (4,1), (-4,-1), (-8,-7)', solution: 'Пары множителей (1,15), (3,5), (-1,-15), (-3,-5).', hasOptions: false },
-                    { id: 'a2', text: 'Решите уравнение: (x² - 3x + 1)(x² - 3x - 3) = 5.', hint: 'Замена t = x² - 3x', answer: '-1, 1, 2, 4', solution: 't = x²-3x. (t+1)(t-3)=5 → t=4 или t=-2.', hasOptions: true, options: ['-1, 4', '1, 2', '-1, 1, 2, 4', '4, -2'] },
-                    { id: 'a3', text: 'Найдите все целые x, для которых x² + x + 1 является точным квадратом.', hint: 'Пусть x²+x+1 = y²', answer: '0, -1', solution: 'x²+x+1 = y² → (2y-2x-1)(2y+2x+1)=3. Решая, получаем x=0 и x=-1.', hasOptions: false }
-                ],
-                goldTask: {
-                    id: 'gold_alg',
-                    number: '#BOSS',
-                    tag: '👑 Босс Алгебры',
-                    text: 'Найдите все целые решения уравнения x² + y² = 2024.',
-                    hint: 'Используй свойства квадратов и делимость на 4.',
-                    answer: 'Решений нет',
-                    solution: '2024 = 8*253, а сумма квадратов не может давать число вида 8k+... Решений нет.',
-                    hasOptions: true,
-                    options: ['Решений нет', 'Есть решение (2,45)', 'Есть решение (4,44)', 'Есть решение (10,44)']
-                }
-            },
-            { id: 'combinatorics', icon: '🎲', name: 'Игровая Площадка',
-                tasks: [
-                    { id: 'c1', text: 'Сколько способов раскрасить вершины правильного шестиугольника в два цвета так, чтобы соседние были разных цветов?', hint: 'Чередование', answer: '2', solution: '2 способа: КС КС КС или СК СК СК.', hasOptions: true, options: ['1', '2', '6', '12'] },
-                    { id: 'c2', text: 'Сколько последовательностей длины 6 из букв А, Б, В, где А встречается не более двух раз?', hint: 'Сумма по числу вхождений А: 0,1,2', answer: '496', solution: 'C(6,0)·64 + C(6,1)·32 + C(6,2)·16 = 496.', hasOptions: true, options: ['496', '512', '384', '256'] },
-                    { id: 'c3', text: 'Сколько способов покрасить клетки доски 2×2 в три цвета так, чтобы соседние по стороне были разных цветов?', hint: 'Прямой перебор', answer: '18', solution: 'Прямой подсчёт: для первой клетки 3 варианта... правильный ответ 18.', hasOptions: true, options: ['18', '36', '54', '72'] }
-                ],
-                goldTask: {
-                    id: 'gold_comb',
-                    number: '#BOSS',
-                    tag: '👑 Босс Комбинаторики',
-                    text: 'Сколько существует способов разбить множество {1,2,3,4,5,6} на три непустых подмножества?',
-                    hint: 'Используй числа Стирлинга второго рода S(6,3).',
-                    answer: '90',
-                    solution: 'S(6,3) = 90.',
-                    hasOptions: true,
-                    options: ['90', '60', '120', '30']
-                }
-            }
-        ];
+        // ЗОЛОТАЯ ЗАДАЧА (босс) – правильный ответ теперь совпадает с вариантом
+        const GOLD_CARD = {
+            id: 'gold',
+            number: '#BOSS',
+            tag: '👑 Босс',
+            text: 'Найди все целые решения уравнения: x³ + y³ = 65',
+            hint: '65 = 1 + 64 = 1³ + 4³',
+            answer: 'Все перечисленные',
+            solution: '✅ (1,4), (4,1), (-1,-4), (-4,-1)',
+            level: 'regional',
+            isGold: true,
+            hasOptions: true,
+            options: ['(1,4)', '(4,1)', '(-1,-4)', '(-4,-1)', 'Все перечисленные']
+        };
 
         const ACHIEVEMENTS = [
             { id: 'first_solve', icon: '🪄', name: 'Ученик чародея', desc: 'Решил первую задачу' },
             { id: 'five_solves', icon: '⚔️', name: 'Мастер стихий', desc: 'Решил 5 задач' },
             { id: 'gold_solve', icon: '💎', name: 'Великий Архимаг', desc: 'Решил босса' },
             { id: 'artifact_found', icon: '🔮', name: 'Хранитель Артефакта', desc: 'Нашёл магический артефакт' },
-            { id: 'perfect_score', icon: '👑', name: 'Легенда Академии', desc: 'Набрал 100+ XP' },
-            { id: 'dungeon_master', icon: '🏆', name: 'Покоритель Данжа', desc: 'Прошёл ежедневный данж' },
-            { id: 'first_duel', icon: '⚔️', name: 'Первый дуэлянт', desc: 'Провёл первую дуэль' },
-            { id: 'duel_master', icon: '🏅', name: 'Мастер дуэлей', desc: 'Выиграл 5 дуэлей' },
-            { id: 'duel_legend', icon: '👑', name: 'Легенда дуэлей', desc: 'Выиграл 20 дуэлей' },
-            { id: 'fast_duel', icon: '⚡', name: 'Быстрый ум', desc: 'Выиграл дуэль за <30 секунд' }
+            { id: 'perfect_score', icon: '👑', name: 'Легенда Академии', desc: 'Набрал 100+ XP' }
         ];
 
         // ============================================
-        // ОСНОВНАЯ ЛОГИКА (полная, с сюжетом и данжем)
+        // ОСНОВНАЯ ЛОГИКА
         // ============================================
         const Mathomancer = {
             state: {
@@ -1873,144 +1310,44 @@
                 unlockedAchievements: [],
                 artifactFound: false,
                 currentLocation: 'logic',
-                locationProgress: {},
-                dungeonCompletedToday: false,
-                dungeonDate: null,
-                dungeonAttempts: 0,
-                totalSolved: 0,
-                totalAttempts: 0,
-                correctAttempts: 0,
-                crystals: 0,
-                duelStats: { wins: 0, losses: 0, draws: 0, totalDuels: 0, winRate: 0, fastestWin: null }
+                locationProgress: {}
             },
             elements: {},
-            dungeonTimerInterval: null,
-            dungeonTimeLeft: 300,
-            dungeonTasks: [],
-            dungeonCurrentIndex: 0,
-            dungeonSolved: false,
-            dungeonLocked: false,
-
-            // === ДУЭЛИ ===
-            peer: null,
-            peerId: null,
-            roomCode: null,
-            conn: null,
-            isHost: false,
-            duelTasks: [],
-            duelCurrentTaskIndex: 0,
-            duelSolvedCount: 0,
-            duelOpponentSolved: 0,
-            duelTimer: 90,
-            duelTimerInterval: null,
-            duelActive: false,
-            duelFinished: false,
-            duelStartTime: null,
 
             init() {
                 this.loadState();
                 this.elements = {
-                    menuScreen: document.getElementById('menuScreen'),
-                    storyScreen: document.getElementById('storyScreen'),
-                    dungeonScreen: document.getElementById('dungeonScreen'),
-                    dictionaryScreen: document.getElementById('dictionaryScreen'),
-                    duelScreen: document.getElementById('duelScreen'),
+                    container: document.getElementById('shortsContainer'),
+                    blocker: document.getElementById('scrollBlocker'),
                     scoreDisplay: document.getElementById('scoreValue'),
                     levelDisplay: document.getElementById('levelDisplay'),
+                    worldMap: document.getElementById('worldMap'),
+                    locationBarFill: document.getElementById('locationBarFill'),
+                    locationLabel: document.getElementById('locationLabel'),
+                    locationCounter: document.getElementById('locationCounter'),
+                    toast: document.getElementById('toast'),
                     achievementBtn: document.getElementById('achievementBtn'),
                     achievementCount: document.getElementById('achievementCount'),
                     achievementsModal: document.getElementById('achievementsModal'),
                     achievementsList: document.getElementById('achievementsList'),
                     achievementsClose: document.getElementById('achievementsClose'),
                     confettiContainer: document.getElementById('confettiContainer'),
-                    toast: document.getElementById('toast'),
-                    resetBtn: document.getElementById('resetBtn'),
-                    menuBtn: document.getElementById('menuBtn'),
-                    statScore: document.getElementById('statScore'),
-                    statSolved: document.getElementById('statSolved'),
-                    statAccuracy: document.getElementById('statAccuracy'),
-                    statTitle: document.getElementById('statTitle'),
-                    statCrystals: document.getElementById('statCrystals'),
-                    statArtifacts: document.getElementById('statArtifacts'),
-                    storyProgress: document.getElementById('storyProgress'),
-                    dungeonStatus: document.getElementById('dungeonStatus'),
-                    worldMap: document.getElementById('worldMap'),
-                    locationBarFill: document.getElementById('locationBarFill'),
-                    locationLabel: document.getElementById('locationLabel'),
-                    locationCounter: document.getElementById('locationCounter'),
-                    container: document.getElementById('shortsContainer'),
-                    blocker: document.getElementById('scrollBlocker'),
-                    backToMenuBtn: document.getElementById('backToMenuBtn'),
-                    dungeonContainer: document.getElementById('dungeonContainer'),
-                    dungeonTimer: document.getElementById('dungeonTimer'),
-                    dungeonProgress: document.getElementById('dungeonProgress'),
-                    backToMenuFromDungeon: document.getElementById('backToMenuFromDungeon'),
-                    storyBtn: document.getElementById('storyBtn'),
-                    dungeonBtn: document.getElementById('dungeonBtn'),
-                    dictionaryBtn: document.getElementById('dictionaryBtn'),
-                    backToMenuFromDict: document.getElementById('backToMenuFromDict'),
-                    dictionaryContainer: document.getElementById('dictionaryContainer'),
-                    achievementsMenuBtn: document.getElementById('achievementsMenuBtn'),
-                    duelBtn: document.getElementById('duelBtn'),
-                    backToMenuFromDuel: document.getElementById('backToMenuFromDuel'),
-                    duelContainer: document.getElementById('duelContainer'),
-                    myPeerId: document.getElementById('myPeerId'),
-                    createDuelBtn: document.getElementById('createDuelBtn'),
-                    joinDuelBtn: document.getElementById('joinDuelBtn'),
-                    joinCodeInput: document.getElementById('joinCodeInput'),
-                    roomCodeDisplay: document.getElementById('roomCodeDisplay'),
-                    duelStatusLobby: document.getElementById('duelStatusLobby'),
-                    duelLobby: document.getElementById('duelLobby'),
-                    duelBattle: document.getElementById('duelBattle'),
-                    duelResultContainer: document.getElementById('duelResultContainer'),
                     goldCard: null,
                     goldCheckBtn: null
                 };
-
-                this.renderDictionary();
-                this.initPeer();
-
-                this.showScreen('menu');
                 this.renderWorldMap();
                 this.loadLocation(this.state.currentLocation);
                 this.updateScore();
                 this.updateAchievementBadge();
-                this.updateMenuStats();
-                this.updateDungeonStatus();
-
-                // Подсказки
-                this.elements.container.addEventListener('click', (e) => {
-                    const hintBtn = e.target.closest('.btn-hint');
-                    if (hintBtn) {
-                        e.stopPropagation();
-                        const targetId = hintBtn.dataset.target;
-                        if (targetId) {
-                            const hintBox = document.getElementById(targetId);
-                            if (hintBox) hintBox.classList.toggle('hidden');
-                        }
-                    }
-                });
-                this.elements.dungeonContainer.addEventListener('click', (e) => {
-                    const hintBtn = e.target.closest('.btn-hint');
-                    if (hintBtn) {
-                        e.stopPropagation();
-                        const targetId = hintBtn.dataset.target;
-                        if (targetId) {
-                            const hintBox = document.getElementById(targetId);
-                            if (hintBox) hintBox.classList.toggle('hidden');
-                        }
-                    }
-                });
-
-                this.attachEvents();
+                this.attachGlobalEvents();
                 this.initEvents();
                 this.initAchievementsModal();
-                console.log('🧙 Mathomancer полностью загружен!');
+                console.log('🧙 Mathomancer v2.1 (исправлены варианты)');
             },
 
             loadState() {
                 try {
-                    const saved = localStorage.getItem('mathomancer_state_final');
+                    const saved = localStorage.getItem('mathomancer_state_v3');
                     if (saved) {
                         const data = JSON.parse(saved);
                         this.state.score = data.score || 0;
@@ -2020,418 +1357,51 @@
                         this.state.artifactFound = data.artifactFound || false;
                         this.state.currentLocation = data.currentLocation || 'logic';
                         this.state.locationProgress = data.locationProgress || {};
-                        this.state.dungeonCompletedToday = data.dungeonCompletedToday || false;
-                        this.state.dungeonDate = data.dungeonDate || null;
-                        this.state.dungeonAttempts = data.dungeonAttempts || 0;
-                        this.state.totalSolved = data.totalSolved || 0;
-                        this.state.totalAttempts = data.totalAttempts || 0;
-                        this.state.correctAttempts = data.correctAttempts || 0;
-                        this.state.crystals = data.crystals || 0;
-                        this.state.duelStats = data.duelStats || { wins: 0, losses: 0, draws: 0, totalDuels: 0, winRate: 0, fastestWin: null };
                     }
                 } catch (e) {}
             },
 
             saveState() {
-                localStorage.setItem('mathomancer_state_final', JSON.stringify({
+                localStorage.setItem('mathomancer_state_v3', JSON.stringify({
                     score: this.state.score,
                     solvedCards: this.state.solvedCards,
                     goldSolved: this.state.goldSolved,
                     unlockedAchievements: this.state.unlockedAchievements,
                     artifactFound: this.state.artifactFound,
                     currentLocation: this.state.currentLocation,
-                    locationProgress: this.state.locationProgress,
-                    dungeonCompletedToday: this.state.dungeonCompletedToday,
-                    dungeonDate: this.state.dungeonDate,
-                    dungeonAttempts: this.state.dungeonAttempts,
-                    totalSolved: this.state.totalSolved,
-                    totalAttempts: this.state.totalAttempts,
-                    correctAttempts: this.state.correctAttempts,
-                    crystals: this.state.crystals,
-                    duelStats: this.state.duelStats
+                    locationProgress: this.state.locationProgress
                 }));
             },
 
-            // ===== PEERJS =====
-            initPeer() {
-                this.peer = new Peer(undefined, { debug: 2 });
-                this.peer.on('open', (id) => {
-                    this.peerId = id;
-                    this.elements.myPeerId.textContent = id;
-                    console.log('Peer ID:', id);
-                });
-                this.peer.on('error', (err) => {
-                    console.error('Peer error:', err);
-                    this.showToast('Ошибка соединения: ' + err.message, 'error');
-                });
-                this.peer.on('connection', (conn) => {
-                    this.conn = conn;
-                    this.setupConnection(conn);
-                });
-            },
-
-            setupConnection(conn) {
-                conn.on('open', () => {
-                    console.log('Соединение установлено!');
-                    this.elements.duelStatusLobby.textContent = '✅ Соперник найден!';
-                    this.isHost = true;
-                    this.generateDuelTasks();
-                    conn.send({ type: 'tasks', tasks: this.duelTasks });
-                    this.startDuel();
-                });
-                conn.on('data', (data) => this.handleDuelData(data));
-                conn.on('close', () => {
-                    console.log('Соединение закрыто');
-                    if (!this.duelFinished) {
-                        this.showToast('Соперник отключился', 'error');
-                        this.duelActive = false;
-                        this.returnToLobby();
-                    }
-                });
-            },
-
-            // ===== ДУЭЛИ: ЛОББИ =====
-            createRoom() {
-                if (!this.peer) return;
-                this.isHost = true;
-                this.roomCode = this.peerId;
-                this.elements.roomCodeDisplay.textContent = this.roomCode;
-                this.elements.duelStatusLobby.textContent = '⏳ Ожидание соперника...';
-                this.elements.createDuelBtn.disabled = true;
-                this.elements.joinDuelBtn.disabled = true;
-                this.elements.joinCodeInput.disabled = true;
-                this.peer.on('connection', (conn) => {
-                    if (this.conn) return;
-                    this.conn = conn;
-                    this.setupConnection(conn);
-                });
-            },
-
-            joinRoom(code) {
-                if (!this.peer) return;
-                if (!code) {
-                    this.showToast('Введите код комнаты', 'error');
-                    return;
-                }
-                this.isHost = false;
-                this.roomCode = code;
-                const conn = this.peer.connect(code);
-                conn.on('open', () => {
-                    this.conn = conn;
-                    this.elements.duelStatusLobby.textContent = '✅ Подключено!';
-                    this.elements.createDuelBtn.disabled = true;
-                    this.elements.joinDuelBtn.disabled = true;
-                    this.elements.joinCodeInput.disabled = true;
-                    this.setupConnection(conn);
-                });
-                conn.on('error', (err) => {
-                    this.showToast('Не удалось подключиться: ' + err.message, 'error');
-                });
-            },
-
-            // ===== ДУЭЛИ: ГЕНЕРАЦИЯ ЗАДАЧ =====
-            generateDuelTasks() {
-                const pool = ALL_TASKS.filter(t => t.answer !== 'Доказательство' && !t.text.includes('Докажите'));
-                const shuffled = this.shuffleArray([...pool]);
-                this.duelTasks = shuffled.slice(0, 3);
-                while (this.duelTasks.length < 3) {
-                    const extra = ALL_TASKS[Math.floor(Math.random() * ALL_TASKS.length)];
-                    if (!this.duelTasks.includes(extra)) this.duelTasks.push(extra);
-                }
-            },
-
-            // ===== ДУЭЛИ: БОЙ =====
-            startDuel() {
-                this.duelActive = true;
-                this.duelFinished = false;
-                this.duelSolvedCount = 0;
-                this.duelOpponentSolved = 0;
-                this.duelCurrentTaskIndex = 0;
-                this.duelTimer = 90;
-                this.duelStartTime = Date.now();
-
-                this.elements.duelLobby.style.display = 'none';
-                this.elements.duelBattle.style.display = 'flex';
-                this.elements.duelResultContainer.style.display = 'none';
-
-                this.renderDuelTask();
-
-                if (this.duelTimerInterval) clearInterval(this.duelTimerInterval);
-                this.duelTimerInterval = setInterval(() => {
-                    this.duelTimer--;
-                    this.updateDuelTimer();
-                    if (this.duelTimer <= 0) {
-                        clearInterval(this.duelTimerInterval);
-                        this.duelTimerInterval = null;
-                        this.endDuel('timeout');
-                    }
-                }, 1000);
-                this.updateDuelTimer();
-
-                if (this.conn) {
-                    this.conn.send({ type: 'start', timestamp: Date.now() });
-                }
-            },
-
-            renderDuelTask() {
-                const battle = this.elements.duelBattle;
-                const task = this.duelTasks[this.duelCurrentTaskIndex];
-                if (!task) return;
-
-                battle.querySelector('.duel-header .progress-info').textContent = `Задача ${this.duelCurrentTaskIndex+1}/${this.duelTasks.length}`;
-                battle.querySelector('.player-box.self .solved').innerHTML = `✅ <strong>${this.duelSolvedCount}</strong> / ${this.duelTasks.length}`;
-                battle.querySelector('.player-box.opponent .solved').innerHTML = `✅ <strong>${this.duelOpponentSolved}</strong> / ${this.duelTasks.length}`;
-
-                const taskCard = battle.querySelector('.task-card-duel');
-                let html = `<div class="task-text">${task.text}</div>`;
-                if (task.hasOptions && task.options) {
-                    html += `<div class="options-container" data-task-id="${task.id}">`;
-                    const letters = ['А', 'Б', 'В', 'Г', 'Д'];
-                    task.options.forEach((opt, idx) => {
-                        const letter = letters[idx] || '•';
-                        html += `
-                            <button class="option-btn duel-option" data-value="${opt}" data-task="${task.id}">
-                                <span class="letter">${letter}</span> ${opt}
-                            </button>
-                        `;
-                    });
-                    html += `</div>`;
-                } else {
-                    html += `
-                        <div class="answer-row-duel">
-                            <input type="text" id="duelAnswerInput" placeholder="впиши ответ...">
-                            <button id="duelSubmitAnswer">✅</button>
-                        </div>
-                    `;
-                }
-                taskCard.innerHTML = html;
-
-                const self = this;
-                const submitBtn = taskCard.querySelector('#duelSubmitAnswer');
-                if (submitBtn) {
-                    submitBtn.addEventListener('click', function() {
-                        const input = document.getElementById('duelAnswerInput');
-                        if (input) {
-                            self.handleDuelAnswer(task.id, input.value.trim());
-                        }
-                    });
-                }
-                const optionBtns = taskCard.querySelectorAll('.duel-option');
-                optionBtns.forEach(btn => {
-                    btn.addEventListener('click', function() {
-                        self.handleDuelAnswer(task.id, this.dataset.value);
-                    });
-                });
-                const inputField = document.getElementById('duelAnswerInput');
-                if (inputField) {
-                    inputField.addEventListener('keypress', function(e) {
-                        if (e.key === 'Enter') {
-                            submitBtn.click();
-                        }
-                    });
-                }
-            },
-
-            updateDuelTimer() {
-                const timerEl = this.elements.duelBattle.querySelector('.duel-header .timer');
-                if (timerEl) timerEl.textContent = `⏱️ ${this.duelTimer}s`;
-            },
-
-            handleDuelAnswer(taskId, userAnswer) {
-                if (!this.duelActive || this.duelFinished) return;
-                if (this.duelSolvedCount > this.duelCurrentTaskIndex) return;
-
-                const task = this.duelTasks.find(t => t.id === taskId);
-                if (!task) return;
-
-                const normalize = (s) => s.replace(/\s+/g, ' ').trim().toLowerCase();
-                const userNorm = normalize(userAnswer);
-                const expectedNorm = normalize(task.answer);
-                let isCorrect = false;
-                if (task.answer.includes(',')) {
-                    const userParts = userNorm.split(',').map(s => s.trim()).sort().join(',');
-                    const expectedParts = expectedNorm.split(',').map(s => s.trim()).sort().join(',');
-                    isCorrect = userParts === expectedParts;
-                } else {
-                    isCorrect = userNorm === expectedNorm;
-                }
-
-                if (isCorrect) {
-                    this.duelSolvedCount++;
-                    this.duelCurrentTaskIndex++;
-                    if (this.conn) {
-                        this.conn.send({ type: 'solved', count: this.duelSolvedCount });
-                    }
-                    if (this.duelSolvedCount >= this.duelTasks.length) {
-                        this.endDuel('win');
-                        return;
-                    }
-                    this.renderDuelTask();
-                } else {
-                    const feedback = this.elements.duelBattle.querySelector('.duel-feedback');
-                    if (feedback) {
-                        feedback.textContent = '❌ Неверно, попробуй ещё';
-                        feedback.style.color = '#f7a0a0';
-                    }
-                }
-            },
-
-            handleDuelData(data) {
-                if (data.type === 'tasks') {
-                    this.duelTasks = data.tasks;
-                    this.startDuel();
-                } else if (data.type === 'solved') {
-                    this.duelOpponentSolved = data.count;
-                    this.renderDuelTask();
-                } else if (data.type === 'end') {
-                    this.duelFinished = true;
-                    this.duelActive = false;
-                    if (this.duelTimerInterval) {
-                        clearInterval(this.duelTimerInterval);
-                        this.duelTimerInterval = null;
-                    }
-                    if (data.result === 'win') this.endDuel('loss');
-                    else if (data.result === 'loss') this.endDuel('win');
-                    else if (data.result === 'draw') this.endDuel('draw');
-                }
-            },
-
-            endDuel(result) {
-                if (this.duelFinished) return;
-                this.duelFinished = true;
-                this.duelActive = false;
-                if (this.duelTimerInterval) {
-                    clearInterval(this.duelTimerInterval);
-                    this.duelTimerInterval = null;
-                }
-
-                if (this.conn && this.conn.open) {
-                    this.conn.send({ type: 'end', result: result });
-                }
-
-                let win = false, draw = false, loss = false;
-                if (result === 'win') win = true;
-                else if (result === 'draw') draw = true;
-                else if (result === 'loss') loss = true;
-                else if (result === 'timeout') {
-                    if (this.duelSolvedCount > this.duelOpponentSolved) win = true;
-                    else if (this.duelSolvedCount < this.duelOpponentSolved) loss = true;
-                    else draw = true;
-                }
-
-                const stats = this.state.duelStats;
-                stats.totalDuels++;
-                if (win) {
-                    stats.wins++;
-                    this.addScore(50);
-                    this.state.crystals++;
-                    this.showToast('🏆 Победа в дуэли! +50 XP, +1 кристалл!', 'success');
-                    this.unlockAchievement('first_duel');
-                    if (stats.wins >= 5) this.unlockAchievement('duel_master');
-                    if (stats.wins >= 20) this.unlockAchievement('duel_legend');
-                    const elapsed = (Date.now() - this.duelStartTime) / 1000;
-                    if (elapsed < 30) this.unlockAchievement('fast_duel');
-                    if (stats.fastestWin === null || elapsed < stats.fastestWin) stats.fastestWin = elapsed;
-                } else if (draw) {
-                    stats.draws++;
-                    this.addScore(25);
-                    this.showToast('🤝 Ничья! +25 XP', 'info');
-                } else {
-                    stats.losses++;
-                    this.addScore(10);
-                    this.showToast('💪 Поражение! +10 XP за участие', 'info');
-                }
-                stats.winRate = stats.totalDuels > 0 ? Math.round((stats.wins / stats.totalDuels) * 100) : 0;
-                this.saveState();
-                this.updateMenuStats();
-
-                this.showDuelResult(win, draw, loss);
-            },
-
-            showDuelResult(win, draw, loss) {
-                this.elements.duelBattle.style.display = 'none';
-                const container = this.elements.duelResultContainer;
-                container.style.display = 'block';
-                let icon, title, sub;
-                if (win) {
-                    icon = '🏆';
-                    title = 'ПОБЕДА!';
-                    sub = `Вы решили ${this.duelSolvedCount}/${this.duelTasks.length} задач.`;
-                } else if (draw) {
-                    icon = '🤝';
-                    title = 'НИЧЬЯ!';
-                    sub = `Оба решили ${this.duelSolvedCount} задач.`;
-                } else {
-                    icon = '💪';
-                    title = 'ПОРАЖЕНИЕ';
-                    sub = `Вы решили ${this.duelSolvedCount}/${this.duelTasks.length} задач.`;
-                }
-                container.innerHTML = `
-                    <div class="duel-result">
-                        <div class="big-icon">${icon}</div>
-                        <div class="title">${title}</div>
-                        <div class="sub">${sub}</div>
-                        <div class="reward">+${win ? 50 : draw ? 25 : 10} XP ${win ? '💎 +1 кристалл' : ''}</div>
-                        <div style="margin-top:12px;">
-                            <button class="header-btn" id="duelBackToMenuResult" style="background:rgba(212,160,48,0.08); padding: 6px 16px; border-radius:30px; font-size:0.8rem; width:auto;">← В меню</button>
-                            <button class="header-btn" id="duelRematch" style="background:rgba(212,160,48,0.08); padding: 6px 16px; border-radius:30px; font-size:0.8rem; width:auto; margin-left:8px;">🔄 Реванш</button>
-                        </div>
-                    </div>
-                `;
-                document.getElementById('duelBackToMenuResult').addEventListener('click', () => {
-                    this.showScreen('menu');
-                    this.updateMenuStats();
-                    this.returnToLobby();
-                });
-                document.getElementById('duelRematch').addEventListener('click', () => {
-                    if (this.conn) this.conn.close();
-                    this.returnToLobby();
-                    if (this.isHost) this.createRoom();
-                    else this.joinRoom(this.roomCode);
-                });
-                if (win) this.fireConfetti(100);
-            },
-
-            returnToLobby() {
-                this.duelActive = false;
-                this.duelFinished = false;
-                this.elements.duelBattle.style.display = 'none';
-                this.elements.duelResultContainer.style.display = 'none';
-                this.elements.duelLobby.style.display = 'flex';
-                this.elements.roomCodeDisplay.textContent = '—';
-                this.elements.duelStatusLobby.textContent = 'Ожидание...';
-                this.elements.createDuelBtn.disabled = false;
-                this.elements.joinDuelBtn.disabled = false;
-                this.elements.joinCodeInput.disabled = false;
-                if (this.conn) {
-                    this.conn.close();
-                    this.conn = null;
-                }
-            },
-
-            // ===== СЮЖЕТ (полная реализация) =====
+            // ===== КАРТА МИРА =====
             renderWorldMap() {
                 const map = this.elements.worldMap;
                 map.innerHTML = '';
+
                 LOCATIONS.forEach((loc, index) => {
                     const btn = document.createElement('button');
                     btn.className = 'location-btn';
                     btn.dataset.id = loc.id;
+
                     const tasks = this.getLocationTasks(loc.id);
                     const solved = tasks.filter(t => this.state.solvedCards[t.id]).length;
                     if (solved >= 3) btn.classList.add('completed');
+
                     if (index > 0) {
                         const prevLoc = LOCATIONS[index - 1];
                         const prevTasks = this.getLocationTasks(prevLoc.id);
                         const prevSolved = prevTasks.filter(t => this.state.solvedCards[t.id]).length;
                         if (prevSolved < 3) btn.classList.add('locked');
                     }
+
                     if (loc.id === this.state.currentLocation) btn.classList.add('active');
+
                     btn.innerHTML = `
                         <span class="icon">${loc.icon}</span>
                         ${loc.name}
                         <span class="check">✅</span>
                     `;
+
                     btn.addEventListener('click', () => {
                         if (btn.classList.contains('locked')) {
                             this.showToast('🔒 Сначала пройди предыдущую локацию (>=3 задач)!', 'error');
@@ -2441,6 +1411,7 @@
                         this.loadLocation(loc.id);
                         this.renderWorldMap();
                     });
+
                     map.appendChild(btn);
                 });
             },
@@ -2449,9 +1420,8 @@
                 const loc = LOCATIONS.find(l => l.id === locationId);
                 if (!loc) return [];
                 const tasks = loc.tasks.map(t => ({ ...t, location: locationId }));
-                const goldTask = loc.goldTask ? { ...loc.goldTask, id: `gold_${locationId}`, location: locationId, isGold: true } : null;
-                if (goldTask) tasks.push(goldTask);
-                return tasks;
+                const goldCopy = { ...GOLD_CARD, id: `gold_${locationId}`, location: locationId };
+                return [...tasks, goldCopy];
             },
 
             getLocationProgress(locationId) {
@@ -2461,52 +1431,65 @@
                 return { solved, total };
             },
 
+            // ===== ЗАГРУЗКА ЛОКАЦИИ =====
             loadLocation(locationId) {
                 const loc = LOCATIONS.find(l => l.id === locationId);
                 if (!loc) return;
+
                 const tasks = this.getLocationTasks(locationId);
                 const progress = this.getLocationProgress(locationId);
+
                 this.elements.locationLabel.textContent = `${loc.icon} ${loc.name}`;
                 this.elements.locationCounter.textContent = `${progress.solved}/${progress.total}`;
                 const percent = progress.total > 0 ? (progress.solved / progress.total) * 100 : 0;
                 this.elements.locationBarFill.style.width = `${percent}%`;
-                this.renderStoryCards(tasks);
+
+                this.renderCards(tasks);
                 this.elements.container.scrollTop = 0;
+
                 const lastLoc = LOCATIONS[LOCATIONS.length - 1];
                 if (locationId === lastLoc.id && progress.solved >= 3 && !this.state.artifactFound) {
-                    setTimeout(() => { this.showArtifact(); }, 600);
+                    setTimeout(() => {
+                        this.showArtifact();
+                    }, 600);
                 }
+
                 this.state.currentLocation = locationId;
                 this.saveState();
                 this.renderWorldMap();
             },
 
-            renderStoryCards(tasks) {
+            // ===== РЕНДЕР КАРТОЧЕК =====
+            renderCards(tasks) {
                 const container = this.elements.container;
                 container.innerHTML = '';
+
                 tasks.forEach(data => {
                     if (data.isArtifact) return;
-                    const card = this.createTaskCard(data, false);
-                    container.appendChild(card);
+                    container.appendChild(this.createScroll(data));
                 });
+
                 const lastLoc = LOCATIONS[LOCATIONS.length - 1];
                 if (this.state.currentLocation === lastLoc.id && this.state.artifactFound) {
                     const art = this.createArtifact();
                     container.appendChild(art);
                 }
+
                 const footer = document.createElement('div');
                 footer.className = 'footer-note';
                 footer.textContent = '✍️ Напиши ответ или выбери вариант · Нажми на свиток для решения';
                 container.appendChild(footer);
+
                 this.elements.goldCard = document.getElementById('goldCard');
                 this.elements.goldCheckBtn = document.getElementById('goldCheckBtn');
             },
 
-            createTaskCard(task, isDungeon) {
+            createScroll(data) {
                 const wrapper = document.createElement('div');
                 wrapper.className = 'scroll';
-                wrapper.dataset.taskId = task.id;
-                wrapper.dataset.viewed = 'false';
+                if (data.isGold) wrapper.classList.add('gold');
+                if (this.state.solvedCards[data.id]) wrapper.classList.add('solved');
+                wrapper.dataset.taskId = data.id;
 
                 const inner = document.createElement('div');
                 inner.className = 'scroll-inner';
@@ -2514,53 +1497,77 @@
                 const front = document.createElement('div');
                 front.className = 'scroll-front';
 
+                const isSolved = this.state.solvedCards[data.id];
                 let interactionHTML = '';
-                if (task.hasOptions && task.options) {
-                    let optionsHTML = `<div class="options-container" data-task-id="${task.id}">`;
-                    const letters = ['А', 'Б', 'В', 'Г', 'Д'];
-                    task.options.forEach((opt, idx) => {
-                        const letter = letters[idx] || '•';
-                        optionsHTML += `
-                            <button class="option-btn" data-value="${opt}" data-task="${task.id}">
-                                <span class="letter">${letter}</span> ${opt}
-                            </button>
-                        `;
-                    });
-                    optionsHTML += `</div>`;
-                    interactionHTML = optionsHTML;
+
+                if (isSolved) {
+                    interactionHTML = `<div style="color: #4caf50; text-align: center; padding: 8px;">✅ Заклинание изучено!</div>`;
                 } else {
-                    interactionHTML = `
-                        <div class="answer-row">
-                            <input class="answer-input" type="text" placeholder="впиши заклинание..." id="answer${task.id}">
-                            <button class="btn-hint" data-target="hint${task.id}">🔮</button>
-                        </div>
-                        <div id="hint${task.id}" class="hint-box hidden">${task.hint}</div>
-                        <div class="flex-row">
-                            <button class="check-btn" data-answer="${task.answer}" data-feedback="feedback${task.id}" data-id="${task.id}" data-gold="${task.isGold || 'false'}">Проверить</button>
-                            <span class="feedback-message" id="feedback${task.id}"></span>
-                        </div>
-                    `;
+                    if (data.hasOptions && data.options && data.options.length > 0) {
+                        let optionsHTML = `<div class="options-container" data-task-id="${data.id}">`;
+                        const letters = ['А', 'Б', 'В', 'Г', 'Д'];
+                        data.options.forEach((opt, idx) => {
+                            const letter = letters[idx] || '•';
+                            optionsHTML += `
+                                <button class="option-btn" data-value="${opt}" data-task="${data.id}">
+                                    <span class="letter">${letter}</span> ${opt}
+                                </button>
+                            `;
+                        });
+                        optionsHTML += `</div>`;
+                        interactionHTML = optionsHTML;
+                    } else {
+                        interactionHTML = `
+                            <div class="answer-row">
+                                <input class="answer-input" type="text" placeholder="впиши заклинание..." id="answer${data.id}">
+                                <button class="btn-hint" data-target="hint${data.id}">🔮</button>
+                            </div>
+                            <div id="hint${data.id}" class="hint-box hidden">${data.hint}</div>
+                            <div class="flex-row">
+                                <button class="check-btn" data-answer="${data.answer}" data-feedback="feedback${data.id}" data-id="${data.id}" data-gold="${data.isGold || false}">Проверить</button>
+                                <span class="feedback-message" id="feedback${data.id}"></span>
+                            </div>
+                        `;
+                    }
                 }
 
-                front.innerHTML = `
-                    <div class="card-meta">
-                        <span class="card-number">#${task.id}</span>
-                        <span class="card-tag">🧙 Испытание</span>
-                    </div>
-                    <div class="task-text">${task.text}</div>
-                    <div class="interaction-area" id="interaction-${task.id}">
-                        ${interactionHTML}
-                        <div class="msg-revealed">🔮 Ты уже видел решение — ответить нельзя</div>
-                    </div>
-                    <div class="flip-hint">👆 Нажми на свиток для решения</div>
-                `;
+                const isGoldAttr = data.isGold ? 'true' : 'false';
+                if (data.isGold) {
+                    front.innerHTML = `
+                        <span class="gold-badge">👑 Босс</span>
+                        <div class="lock-message">🔒 Победи босса, чтобы двигаться дальше</div>
+                        <div class="card-meta">
+                            <span class="card-number">${data.number}</span>
+                            <span class="card-tag">${data.tag}</span>
+                        </div>
+                        <div class="task-text">${data.text}</div>
+                        <div class="interaction-area" id="interaction-${data.id}">
+                            ${interactionHTML}
+                            <div class="msg-revealed">🔮 Ты уже видел решение — ответить нельзя</div>
+                        </div>
+                        <div class="flip-hint">👆 Нажми на свиток для решения</div>
+                    `;
+                } else {
+                    front.innerHTML = `
+                        <div class="card-meta">
+                            <span class="card-number">#${data.id}</span>
+                            <span class="card-tag">🧙 Испытание</span>
+                        </div>
+                        <div class="task-text">${data.text}</div>
+                        <div class="interaction-area" id="interaction-${data.id}">
+                            ${interactionHTML}
+                            <div class="msg-revealed">🔮 Ты уже видел решение — ответить нельзя</div>
+                        </div>
+                        <div class="flip-hint">👆 Нажми на свиток для решения</div>
+                    `;
+                }
 
                 const back = document.createElement('div');
                 back.className = 'scroll-back';
                 back.innerHTML = `
                     <div class="solution-title">📜 Решение</div>
-                    <div class="solution-text">${task.solution || task.answer}</div>
-                    <div class="solution-hint">💡 ${task.hint || ''}</div>
+                    <div class="solution-text">${data.solution || data.answer}</div>
+                    <div class="solution-hint">💡 ${data.hint || ''}</div>
                 `;
 
                 inner.appendChild(front);
@@ -2569,63 +1576,18 @@
 
                 wrapper.addEventListener('click', function(e) {
                     if (e.target.closest('.answer-input, .btn-hint, .check-btn, .option-btn, .flex-row')) return;
-                    const taskId = this.dataset.taskId;
-                    const isSolved = Mathomancer.state.solvedCards[taskId] || false;
-                    if (isSolved) return;
                     this.classList.toggle('flipped');
                     const interaction = this.querySelector('.interaction-area');
-                    if (this.classList.contains('flipped')) {
-                        this.dataset.viewed = 'true';
-                        if (interaction) interaction.classList.add('disabled');
-                    } else {
-                        if (this.dataset.viewed === 'true') {
-                            if (interaction) interaction.classList.add('disabled');
-                        } else {
-                            if (interaction) interaction.classList.remove('disabled');
+                    if (interaction) {
+                        if (this.classList.contains('flipped')) {
+                            interaction.classList.add('disabled');
                         }
                     }
                 });
 
-                if (this.state.solvedCards[task.id]) {
+                if (isSolved) {
                     const interaction = wrapper.querySelector('.interaction-area');
                     if (interaction) interaction.classList.add('disabled');
-                }
-
-                if (isDungeon) {
-                    const self = this;
-                    const checkBtn = wrapper.querySelector('.check-btn');
-                    if (checkBtn) {
-                        checkBtn.addEventListener('click', function(e) {
-                            if (wrapper.dataset.viewed === 'true' || wrapper.classList.contains('flipped')) {
-                                self.showToast('🔮 Ты уже видел решение – ответить нельзя!', 'error');
-                                return;
-                            }
-                            self.handleDungeonAnswer(e, this, task);
-                        });
-                    }
-                    const optionBtns = wrapper.querySelectorAll('.option-btn');
-                    optionBtns.forEach(btn => {
-                        btn.addEventListener('click', function(e) {
-                            if (wrapper.dataset.viewed === 'true' || wrapper.classList.contains('flipped')) {
-                                self.showToast('🔮 Ты уже видел решение – ответить нельзя!', 'error');
-                                return;
-                            }
-                            self.handleDungeonOption(e, this, task);
-                        });
-                    });
-                    const input = wrapper.querySelector('.answer-input');
-                    if (input) {
-                        input.addEventListener('keypress', function(e) {
-                            if (e.key === 'Enter') {
-                                if (wrapper.dataset.viewed === 'true' || wrapper.classList.contains('flipped')) {
-                                    self.showToast('🔮 Ты уже видел решение – ответить нельзя!', 'error');
-                                    return;
-                                }
-                                const btn = wrapper.querySelector('.check-btn');
-                                if (btn) btn.click();
-                            }
-                        });
-                    }
                 }
 
                 return wrapper;
@@ -2635,8 +1597,10 @@
                 const wrapper = document.createElement('div');
                 wrapper.className = 'scroll artifact';
                 wrapper.dataset.taskId = 'artifact';
+
                 const inner = document.createElement('div');
                 inner.className = 'scroll-inner';
+
                 const front = document.createElement('div');
                 front.className = 'scroll-front';
                 front.innerHTML = `
@@ -2647,6 +1611,7 @@
                     <div class="artifact-reward">+50 XP</div>
                     <div class="artifact-message">Ты доказал свою силу и мудрость!<br>Артефакт признаёт тебя достойным.</div>
                 `;
+
                 const back = document.createElement('div');
                 back.className = 'scroll-back';
                 back.innerHTML = `
@@ -2654,12 +1619,15 @@
                     <div class="solution-text">Ты — настоящий Магомант!</div>
                     <div class="solution-hint">🔥 Ты прошёл все испытания</div>
                 `;
+
                 inner.appendChild(front);
                 inner.appendChild(back);
                 wrapper.appendChild(inner);
+
                 wrapper.addEventListener('click', function(e) {
                     this.classList.toggle('flipped');
                 });
+
                 return wrapper;
             },
 
@@ -2667,324 +1635,23 @@
                 if (this.state.artifactFound) return;
                 this.state.artifactFound = true;
                 this.addScore(50);
-                this.state.crystals += 2;
                 this.unlockAchievement('artifact_found');
                 this.fireConfetti(200);
-                this.showToast('🔮 Ты нашёл Скрижаль Мудрости! +50 XP, +2 кристалла!', 'achievement');
+                this.showToast('🔮 Ты нашёл Скрижаль Мудрости! +50 XP!', 'achievement');
                 this.saveState();
-                this.updateMenuStats();
                 this.loadLocation(this.state.currentLocation);
             },
 
-            // ===== ДАНЖ =====
-            startDungeon() {
-                const today = new Date().toDateString();
-                if (this.state.dungeonCompletedToday && this.state.dungeonDate === today) {
-                    this.showToast('⏳ Данж уже пройден сегодня! Возвращайся завтра.', 'info');
-                    return;
-                }
-
-                const pool = ALL_TASKS.filter(t => t.level === 'school' || t.level === 'municipal');
-                const shuffled = this.shuffleArray([...pool]);
-                this.dungeonTasks = shuffled.slice(0, 5);
-                while (this.dungeonTasks.length < 5) {
-                    const extra = ALL_TASKS[Math.floor(Math.random() * ALL_TASKS.length)];
-                    if (!this.dungeonTasks.includes(extra)) this.dungeonTasks.push(extra);
-                }
-                this.dungeonCurrentIndex = 0;
-                this.dungeonSolved = false;
-                this.dungeonLocked = false;
-                this.dungeonTimeLeft = 300;
-                this.elements.dungeonTimer.textContent = '⏱️ 5:00';
-                this.elements.dungeonProgress.textContent = `Задача 1/${this.dungeonTasks.length}`;
-
-                this.showScreen('dungeon');
-                this.renderDungeonTasks();
-
-                if (this.dungeonTimerInterval) clearInterval(this.dungeonTimerInterval);
-                this.dungeonTimerInterval = setInterval(() => {
-                    this.dungeonTimeLeft--;
-                    const mins = Math.floor(this.dungeonTimeLeft / 60);
-                    const secs = this.dungeonTimeLeft % 60;
-                    this.elements.dungeonTimer.textContent = `⏱️ ${mins}:${secs.toString().padStart(2, '0')}`;
-                    if (this.dungeonTimeLeft <= 0) {
-                        clearInterval(this.dungeonTimerInterval);
-                        this.dungeonTimerInterval = null;
-                        this.dungeonFailed('Время вышло!');
-                    }
-                }, 1000);
-
-                this.saveState();
-            },
-
-            renderDungeonTasks() {
-                const container = this.elements.dungeonContainer;
-                container.innerHTML = '';
-                const task = this.dungeonTasks[this.dungeonCurrentIndex];
-                if (!task) return;
-                const card = this.createTaskCard(task, true);
-                container.appendChild(card);
-            },
-
-            handleDungeonAnswer(e, btn, task) {
-                if (this.dungeonLocked) return;
-                const wrapper = btn.closest('.scroll');
-                if (wrapper.dataset.viewed === 'true' || wrapper.classList.contains('flipped')) {
-                    this.showToast('🔮 Ты уже видел решение – ответить нельзя!', 'error');
-                    return;
-                }
-                const input = wrapper.querySelector('.answer-input');
-                const feedback = document.getElementById(btn.dataset.feedback);
-                if (!input || !feedback) return;
-
-                const user = input.value.trim();
-                const expected = btn.dataset.answer;
-
-                if (user === '') {
-                    feedback.textContent = '✍️ Напиши заклинание!';
-                    feedback.className = 'feedback-message error';
-                    input.classList.add('shake');
-                    setTimeout(() => input.classList.remove('shake'), 500);
-                    return;
-                }
-
-                const normalize = (s) => s.replace(/\s+/g, ' ').trim().toLowerCase();
-                const userNorm = normalize(user);
-                const expectedNorm = normalize(expected);
-                let isCorrect = false;
-                if (expected.includes(',')) {
-                    const userParts = userNorm.split(',').map(s => s.trim()).sort().join(',');
-                    const expectedParts = expectedNorm.split(',').map(s => s.trim()).sort().join(',');
-                    isCorrect = userParts === expectedParts;
-                } else {
-                    isCorrect = userNorm === expectedNorm;
-                }
-
-                if (isCorrect) {
-                    feedback.textContent = '✨ Верно!';
-                    feedback.style.color = '#b0e0a0';
-                    feedback.className = 'feedback-message';
-                    this.dungeonCurrentIndex++;
-                    if (this.dungeonCurrentIndex >= this.dungeonTasks.length) {
-                        this.dungeonCompleted();
-                    } else {
-                        this.elements.dungeonProgress.textContent = `Задача ${this.dungeonCurrentIndex+1}/${this.dungeonTasks.length}`;
-                        this.renderDungeonTasks();
-                    }
-                } else {
-                    feedback.textContent = '❌ Неверно, попробуй ещё';
-                    feedback.style.color = '#f7a0a0';
-                    feedback.className = 'feedback-message error';
-                    input.classList.add('shake');
-                    setTimeout(() => input.classList.remove('shake'), 500);
-                }
-            },
-
-            handleDungeonOption(e, btn, task) {
-                if (this.dungeonLocked) return;
-                const wrapper = btn.closest('.scroll');
-                if (wrapper.dataset.viewed === 'true' || wrapper.classList.contains('flipped')) {
-                    this.showToast('🔮 Ты уже видел решение – ответить нельзя!', 'error');
-                    return;
-                }
-                const value = btn.dataset.value;
-                const allOptions = wrapper.querySelectorAll('.option-btn');
-                allOptions.forEach(opt => opt.classList.remove('selected', 'correct', 'wrong'));
-                btn.classList.add('selected');
-
-                const isCorrect = (value === task.answer);
-                if (isCorrect) {
-                    btn.classList.add('correct');
-                    this.dungeonCurrentIndex++;
-                    if (this.dungeonCurrentIndex >= this.dungeonTasks.length) {
-                        this.dungeonCompleted();
-                    } else {
-                        this.elements.dungeonProgress.textContent = `Задача ${this.dungeonCurrentIndex+1}/${this.dungeonTasks.length}`;
-                        this.renderDungeonTasks();
-                    }
-                } else {
-                    btn.classList.add('wrong');
-                    this.showToast('💨 Неверно!', 'error');
-                }
-            },
-
-            dungeonCompleted() {
-                if (this.dungeonSolved) return;
-                this.dungeonSolved = true;
-                this.dungeonLocked = true;
-                if (this.dungeonTimerInterval) {
-                    clearInterval(this.dungeonTimerInterval);
-                    this.dungeonTimerInterval = null;
-                }
-                this.addScore(30);
-                this.state.crystals++;
-                this.unlockAchievement('dungeon_master');
-                const today = new Date().toDateString();
-                this.state.dungeonCompletedToday = true;
-                this.state.dungeonDate = today;
-                this.state.dungeonAttempts++;
-                this.saveState();
-                this.updateDungeonStatus();
-                this.updateMenuStats();
-
-                const container = this.elements.dungeonContainer;
-                container.innerHTML = `
-                    <div class="dungeon-result">
-                        <div class="big-icon">🏆</div>
-                        <div class="title">Данж пройден!</div>
-                        <div class="sub">Ты справился со всеми испытаниями!</div>
-                        <div class="reward">+30 XP</div>
-                        <div style="display:flex; justify-content:center; gap:12px; flex-wrap:wrap; margin-top:8px;">
-                            <span style="font-size:1.2rem;">💎</span>
-                            <span style="font-size:1.2rem; color:var(--gold-light);">+1 магический кристалл!</span>
-                        </div>
-                        <div style="margin-top:12px;">
-                            <button class="header-btn" id="dungeonBackToMenu" style="background:rgba(212,160,48,0.08); padding: 6px 16px; border-radius:30px; font-size:0.8rem; width:auto;">← В меню</button>
-                        </div>
-                    </div>
-                `;
-                document.getElementById('dungeonBackToMenu').addEventListener('click', () => {
-                    this.showScreen('menu');
-                    this.updateMenuStats();
-                });
-                this.fireConfetti(100);
-                this.showToast('🎉 Данж пройден! +1 кристалл!', 'success');
-            },
-
-            dungeonFailed(reason) {
-                if (this.dungeonLocked) return;
-                this.dungeonLocked = true;
-                if (this.dungeonTimerInterval) {
-                    clearInterval(this.dungeonTimerInterval);
-                    this.dungeonTimerInterval = null;
-                }
-                const container = this.elements.dungeonContainer;
-                container.innerHTML = `
-                    <div class="dungeon-result">
-                        <div class="big-icon">💀</div>
-                        <div class="title">Провал!</div>
-                        <div class="sub">${reason}</div>
-                        <div style="margin-top:12px;">
-                            <button class="header-btn" id="dungeonBackToMenuFail" style="background:rgba(212,160,48,0.08); padding: 6px 16px; border-radius:30px; font-size:0.8rem; width:auto;">← В меню</button>
-                        </div>
-                    </div>
-                `;
-                document.getElementById('dungeonBackToMenuFail').addEventListener('click', () => {
-                    this.showScreen('menu');
-                    this.updateMenuStats();
-                });
-                this.showToast('💀 Данж провален...', 'error');
-            },
-
-            // ===== ОБЩИЕ МЕТОДЫ =====
-            renderDictionary() {
-                const container = this.elements.dictionaryContainer;
-                container.innerHTML = '<div class="dict-title">📜 Магический словарь</div>';
-                DICTIONARY.forEach(item => {
-                    const card = document.createElement('div');
-                    card.className = 'dict-card';
-                    card.innerHTML = `
-                        <div class="name">${item.name}</div>
-                        <div class="definition">${item.definition}</div>
-                        <div class="formula">${item.formula}</div>
-                        <div class="example"><strong>Пример:</strong> ${item.example}</div>
-                    `;
-                    container.appendChild(card);
-                });
-            },
-
-            showScreen(screen) {
-                const screens = ['menu', 'story', 'dungeon', 'dictionary', 'duel'];
-                screens.forEach(s => {
-                    const el = this.elements[`${s}Screen`];
-                    if (s === screen) el.classList.add('active');
-                    else el.classList.remove('active');
-                });
-                if (screen === 'menu') {
-                    this.updateMenuStats();
-                    this.updateDungeonStatus();
-                }
-            },
-
-            updateMenuStats() {
-                this.elements.statScore.textContent = this.state.score;
-                const solved = Object.keys(this.state.solvedCards).filter(id => this.state.solvedCards[id]).length;
-                this.elements.statSolved.textContent = solved;
-                const totalAttempts = this.state.totalAttempts || 0;
-                const correct = this.state.correctAttempts || 0;
-                const accuracy = totalAttempts > 0 ? Math.round((correct / totalAttempts) * 100) : 0;
-                this.elements.statAccuracy.textContent = accuracy + '%';
-                const level = this.getLevel(this.state.score);
-                this.elements.statTitle.textContent = level.emoji;
-                this.elements.statCrystals.textContent = this.state.crystals;
-                this.elements.statArtifacts.textContent = this.state.artifactFound ? '1' : '0';
-                const totalStory = LOCATIONS.reduce((acc, loc) => acc + loc.tasks.length + 1, 0);
-                const solvedStory = Object.keys(this.state.solvedCards).filter(id => this.state.solvedCards[id] && !id.startsWith('gold')).length;
-                const storyPercent = totalStory > 0 ? Math.round((solvedStory / totalStory) * 100) : 0;
-                this.elements.storyProgress.textContent = storyPercent + '% пройдено';
-            },
-
-            updateDungeonStatus() {
-                const today = new Date().toDateString();
-                const completed = this.state.dungeonCompletedToday && this.state.dungeonDate === today;
-                const el = this.elements.dungeonStatus;
-                if (completed) {
-                    el.textContent = '✅ Сегодня пройден!';
-                    el.className = 'badge-info';
-                } else {
-                    el.textContent = '⚔️ Готов к прохождению';
-                    el.className = 'badge-info gold';
-                }
-            },
-
+            // ===== УРОВНИ =====
             getLevel(score) {
-                if (score >= 150) return { emoji: '👑', title: 'Легенда', color: '#ff6b6b' };
-                if (score >= 100) return { emoji: '💎', title: 'Архимаг', color: '#a8e6cf' };
-                if (score >= 60) return { emoji: '🥇', title: 'Магистр', color: '#f5d78a' };
-                if (score >= 30) return { emoji: '🥈', title: 'Чародей', color: '#c0c0c0' };
-                return { emoji: '🪄', title: 'Ученик', color: '#cd7f32' };
+                if (score >= 150) return { title: '👑 Легенда', color: '#ff6b6b' };
+                if (score >= 100) return { title: '💎 Архимаг', color: '#a8e6cf' };
+                if (score >= 60) return { title: '🥇 Магистр', color: '#f5d78a' };
+                if (score >= 30) return { title: '🥈 Чародей', color: '#c0c0c0' };
+                return { title: '🪄 Ученик', color: '#cd7f32' };
             },
 
-            updateScore() {
-                this.elements.scoreDisplay.textContent = this.state.score;
-                const level = this.getLevel(this.state.score);
-                this.elements.levelDisplay.textContent = `(${level.title})`;
-                this.elements.levelDisplay.style.color = level.color;
-                this.checkAchievements();
-                this.updateMenuStats();
-            },
-
-            addScore(points) {
-                this.state.score += points;
-                this.updateScore();
-                this.saveState();
-                this.checkAchievements();
-            },
-
-            markSolved(cardId) {
-                this.state.solvedCards[cardId] = true;
-                this.state.totalSolved++;
-                this.saveState();
-                this.checkAchievements();
-                const progress = this.getLocationProgress(this.state.currentLocation);
-                this.elements.locationCounter.textContent = `${progress.solved}/${progress.total}`;
-                const percent = progress.total > 0 ? (progress.solved / progress.total) * 100 : 0;
-                this.elements.locationBarFill.style.width = `${percent}%`;
-                this.renderWorldMap();
-                this.updateMenuStats();
-                const lastLoc = LOCATIONS[LOCATIONS.length - 1];
-                if (this.state.currentLocation === lastLoc.id && progress.solved >= 3 && !this.state.artifactFound) {
-                    setTimeout(() => { this.showArtifact(); }, 600);
-                }
-            },
-
-            recordAttempt(isCorrect) {
-                this.state.totalAttempts++;
-                if (isCorrect) this.state.correctAttempts++;
-                this.saveState();
-                this.updateMenuStats();
-            },
-
+            // ===== ДОСТИЖЕНИЯ =====
             unlockAchievement(id) {
                 if (this.state.unlockedAchievements.includes(id)) return;
                 this.state.unlockedAchievements.push(id);
@@ -2992,7 +1659,6 @@
                 this.updateAchievementBadge();
                 const achievement = ACHIEVEMENTS.find(a => a.id === id);
                 if (achievement) this.showToast(`🏅 Титул: ${achievement.icon} ${achievement.name}`, 'achievement');
-                this.updateMenuStats();
             },
 
             updateAchievementBadge() {
@@ -3037,10 +1703,6 @@
                 this.elements.achievementsModal.addEventListener('click', (e) => {
                     if (e.target === this.elements.achievementsModal) this.elements.achievementsModal.classList.remove('open');
                 });
-                this.elements.achievementsMenuBtn.addEventListener('click', () => {
-                    this.renderAchievements();
-                    this.elements.achievementsModal.classList.add('open');
-                });
             },
 
             fireConfetti(count = 150) {
@@ -3062,6 +1724,39 @@
                 setTimeout(() => container.innerHTML = '', 6000);
             },
 
+            updateScore() {
+                this.elements.scoreDisplay.textContent = this.state.score;
+                const level = this.getLevel(this.state.score);
+                this.elements.levelDisplay.textContent = `(${level.title})`;
+                this.elements.levelDisplay.style.color = level.color;
+                this.checkAchievements();
+            },
+
+            markSolved(cardId) {
+                this.state.solvedCards[cardId] = true;
+                this.saveState();
+                this.checkAchievements();
+                const progress = this.getLocationProgress(this.state.currentLocation);
+                this.elements.locationCounter.textContent = `${progress.solved}/${progress.total}`;
+                const percent = progress.total > 0 ? (progress.solved / progress.total) * 100 : 0;
+                this.elements.locationBarFill.style.width = `${percent}%`;
+                this.renderWorldMap();
+
+                const lastLoc = LOCATIONS[LOCATIONS.length - 1];
+                if (this.state.currentLocation === lastLoc.id && progress.solved >= 3 && !this.state.artifactFound) {
+                    setTimeout(() => {
+                        this.showArtifact();
+                    }, 600);
+                }
+            },
+
+            addScore(points) {
+                this.state.score += points;
+                this.updateScore();
+                this.saveState();
+                this.checkAchievements();
+            },
+
             showToast(message, type = 'info') {
                 const toast = this.elements.toast;
                 toast.textContent = message;
@@ -3071,31 +1766,95 @@
                 setTimeout(() => toast.classList.remove('show'), 2500);
             },
 
-            shuffleArray(arr) {
-                for (let i = arr.length - 1; i > 0; i--) {
-                    const j = Math.floor(Math.random() * (i + 1));
-                    [arr[i], arr[j]] = [arr[j], arr[i]];
+            // ===== ОБРАБОТКА ВАРИАНТОВ =====
+            handleOptionClick(e, btn) {
+                const value = btn.dataset.value;
+                const taskId = btn.dataset.task;
+                const card = btn.closest('.scroll');
+                if (!card) return;
+                const interaction = card.querySelector('.interaction-area');
+                if (interaction && interaction.classList.contains('disabled')) return;
+                if (this.state.solvedCards[taskId]) return;
+
+                const allTasks = this.getLocationTasks(this.state.currentLocation);
+                const task = allTasks.find(t => t.id === taskId);
+                if (!task) return;
+
+                const isCorrect = (value === task.answer);
+                const allOptions = card.querySelectorAll('.option-btn');
+                allOptions.forEach(opt => opt.classList.remove('selected', 'correct', 'wrong'));
+                btn.classList.add('selected');
+
+                if (isCorrect) {
+                    btn.classList.add('correct');
+                    if (!this.state.solvedCards[taskId]) {
+                        this.addScore(task.isGold ? 50 : 10);
+                        this.markSolved(taskId);
+                        if (task.isGold) {
+                            this.state.goldSolved = true;
+                            this.unlockScroll();
+                            this.showToast('🔥 Босс повержен! +50 XP!', 'success');
+                        } else {
+                            this.showToast('✨ Заклинание активировано! +10 XP!', 'success');
+                        }
+                    }
+                    allOptions.forEach(opt => opt.classList.add('disabled'));
+                } else {
+                    btn.classList.add('wrong');
+                    this.showToast('💨 Заклинание рассеялось...', 'error');
                 }
-                return arr;
             },
 
-            // ===== ОБРАБОТЧИКИ СОБЫТИЙ =====
-            handleStoryAnswer(e, btn, task) {
-                const wrapper = btn.closest('.scroll');
-                if (wrapper.dataset.viewed === 'true' || wrapper.classList.contains('flipped')) {
-                    this.showToast('🔮 Ты уже видел решение – ответить нельзя!', 'error');
-                    return;
-                }
-                if (this.state.solvedCards[task.id]) {
-                    this.showToast('📜 Уже изучено!', 'info');
-                    return;
-                }
-                const input = wrapper.querySelector('.answer-input');
+            // ===== ИНИЦИАЛИЗАЦИЯ СОБЫТИЙ =====
+            initEvents() {
+                document.addEventListener('click', (e) => {
+                    const optionBtn = e.target.closest('.option-btn');
+                    if (optionBtn) {
+                        e.stopPropagation();
+                        this.handleOptionClick(e, optionBtn);
+                    }
+                });
+
+                this.initHints();
+                this.initAnswerChecks();
+                this.initEnterHandler();
+                this.initResetHandler();
+            },
+
+            initHints() {
+                document.querySelectorAll('.btn-hint').forEach(btn => {
+                    btn.removeEventListener('click', this._hintHandler);
+                    this._hintHandler = (e) => {
+                        e.stopPropagation();
+                        const target = document.getElementById(btn.dataset.target);
+                        if (target) target.classList.toggle('hidden');
+                    };
+                    btn.addEventListener('click', this._hintHandler);
+                });
+            },
+
+            initAnswerChecks() {
+                document.querySelectorAll('.check-btn').forEach(btn => {
+                    btn.removeEventListener('click', this._checkHandler);
+                    this._checkHandler = (e) => this.handleAnswerCheck(e, btn);
+                    btn.addEventListener('click', this._checkHandler);
+                });
+            },
+
+            handleAnswerCheck(e, btn) {
+                const card = btn.closest('.scroll');
+                if (!card) return;
+                const interaction = card.querySelector('.interaction-area');
+                if (interaction && interaction.classList.contains('disabled')) return;
+
+                const input = card.querySelector('.answer-input');
                 const feedback = document.getElementById(btn.dataset.feedback);
                 if (!input || !feedback) return;
 
                 const user = input.value.trim();
                 const expected = btn.dataset.answer;
+                const cardId = btn.dataset.id;
+                const isGold = btn.dataset.gold === 'true';
 
                 if (user === '') {
                     feedback.textContent = '✍️ Напиши заклинание!';
@@ -3105,23 +1864,21 @@
                     return;
                 }
 
-                const normalize = (s) => s.replace(/\s+/g, ' ').trim().toLowerCase();
-                const userNorm = normalize(user);
-                const expectedNorm = normalize(expected);
                 let isCorrect = false;
-                if (expected.includes(',')) {
-                    const userParts = userNorm.split(',').map(s => s.trim()).sort().join(',');
-                    const expectedParts = expectedNorm.split(',').map(s => s.trim()).sort().join(',');
-                    isCorrect = userParts === expectedParts;
+                const numUser = Number(user);
+                const numExpected = Number(expected);
+                if (!isNaN(numUser) && !isNaN(numExpected) && user !== '' && expected !== '') {
+                    isCorrect = numUser === numExpected;
                 } else {
-                    isCorrect = userNorm === expectedNorm;
+                    isCorrect = user.toLowerCase() === expected.toLowerCase();
                 }
 
+                feedback.className = 'feedback-message';
                 if (isCorrect) {
-                    if (!this.state.solvedCards[task.id]) {
-                        this.addScore(task.isGold ? 50 : 10);
-                        this.markSolved(task.id);
-                        if (task.isGold) {
+                    if (!this.state.solvedCards[cardId]) {
+                        this.addScore(isGold ? 50 : 10);
+                        this.markSolved(cardId);
+                        if (isGold) {
                             this.state.goldSolved = true;
                             this.unlockScroll();
                             btn.textContent = '✅ ПОБЕДА!';
@@ -3133,14 +1890,10 @@
                         }
                     } else {
                         this.showToast('📜 Уже изучено!', 'info');
-                        return;
                     }
-                    feedback.textContent = task.isGold ? '🔥 Босс повержен!' : '✨ Верно!';
+                    feedback.textContent = isGold ? '🔥 Босс повержен!' : '✨ Верно!';
                     feedback.style.color = '#b0e0a0';
-                    feedback.className = 'feedback-message';
-                    const interaction = wrapper.querySelector('.interaction-area');
                     if (interaction) interaction.classList.add('disabled');
-                    this.recordAttempt(true);
                 } else {
                     feedback.textContent = '❌ Заклинание рассеялось... Попробуй ещё';
                     feedback.style.color = '#f7a0a0';
@@ -3148,205 +1901,10 @@
                     input.classList.add('shake');
                     setTimeout(() => input.classList.remove('shake'), 500);
                     this.showToast('💨 Заклинание рассеялось...', 'error');
-                    this.recordAttempt(false);
                 }
             },
 
-            handleStoryOption(e, btn, task) {
-                const wrapper = btn.closest('.scroll');
-                if (wrapper.dataset.viewed === 'true' || wrapper.classList.contains('flipped')) {
-                    this.showToast('🔮 Ты уже видел решение – ответить нельзя!', 'error');
-                    return;
-                }
-                if (this.state.solvedCards[task.id]) {
-                    this.showToast('📜 Уже изучено!', 'info');
-                    return;
-                }
-                const value = btn.dataset.value;
-                const allOptions = wrapper.querySelectorAll('.option-btn');
-                allOptions.forEach(opt => opt.classList.remove('selected', 'correct', 'wrong'));
-                btn.classList.add('selected');
-
-                const isCorrect = (value === task.answer);
-                if (isCorrect) {
-                    btn.classList.add('correct');
-                    if (!this.state.solvedCards[task.id]) {
-                        this.addScore(task.isGold ? 50 : 10);
-                        this.markSolved(task.id);
-                        if (task.isGold) {
-                            this.state.goldSolved = true;
-                            this.unlockScroll();
-                            this.showToast('🔥 Босс повержен! +50 XP!', 'success');
-                        } else {
-                            this.showToast('✨ Заклинание активировано! +10 XP!', 'success');
-                        }
-                    } else {
-                        this.showToast('📜 Уже изучено!', 'info');
-                        return;
-                    }
-                    allOptions.forEach(opt => opt.classList.add('disabled'));
-                    const interaction = wrapper.querySelector('.interaction-area');
-                    if (interaction) interaction.classList.add('disabled');
-                    this.recordAttempt(true);
-                } else {
-                    btn.classList.add('wrong');
-                    this.showToast('💨 Неверно!', 'error');
-                    this.recordAttempt(false);
-                }
-            },
-
-            // ===== ИНИЦИАЛИЗАЦИЯ СОБЫТИЙ =====
-            initEvents() {
-                this.elements.container.addEventListener('click', (e) => {
-                    const checkBtn = e.target.closest('.check-btn');
-                    if (checkBtn) {
-                        const wrapper = checkBtn.closest('.scroll');
-                        const taskId = checkBtn.dataset.id;
-                        const allTasks = this.getLocationTasks(this.state.currentLocation);
-                        const task = allTasks.find(t => t.id === taskId);
-                        if (task) this.handleStoryAnswer(e, checkBtn, task);
-                    }
-                    const optionBtn = e.target.closest('.option-btn');
-                    if (optionBtn) {
-                        const taskId = optionBtn.dataset.task;
-                        const allTasks = this.getLocationTasks(this.state.currentLocation);
-                        const task = allTasks.find(t => t.id === taskId);
-                        if (task) this.handleStoryOption(e, optionBtn, task);
-                    }
-                });
-
-                this.elements.container.addEventListener('keypress', (e) => {
-                    if (e.key === 'Enter') {
-                        const input = e.target.closest('.answer-input');
-                        if (input) {
-                            const wrapper = input.closest('.scroll');
-                            const checkBtn = wrapper.querySelector('.check-btn');
-                            if (checkBtn) checkBtn.click();
-                        }
-                    }
-                });
-
-                this.elements.storyBtn.addEventListener('click', () => {
-                    this.showScreen('story');
-                    this.renderWorldMap();
-                    this.loadLocation(this.state.currentLocation);
-                });
-
-                this.elements.dungeonBtn.addEventListener('click', () => {
-                    this.startDungeon();
-                });
-
-                this.elements.dictionaryBtn.addEventListener('click', () => {
-                    this.showScreen('dictionary');
-                });
-
-                this.elements.duelBtn.addEventListener('click', () => {
-                    this.showScreen('duel');
-                });
-
-                this.elements.backToMenuBtn.addEventListener('click', () => {
-                    this.showScreen('menu');
-                    this.updateMenuStats();
-                });
-
-                this.elements.backToMenuFromDungeon.addEventListener('click', () => {
-                    if (this.dungeonTimerInterval) {
-                        clearInterval(this.dungeonTimerInterval);
-                        this.dungeonTimerInterval = null;
-                    }
-                    this.showScreen('menu');
-                    this.updateMenuStats();
-                });
-
-                this.elements.backToMenuFromDict.addEventListener('click', () => {
-                    this.showScreen('menu');
-                    this.updateMenuStats();
-                });
-
-                this.elements.backToMenuFromDuel.addEventListener('click', () => {
-                    if (this.duelTimerInterval) {
-                        clearInterval(this.duelTimerInterval);
-                        this.duelTimerInterval = null;
-                    }
-                    this.showScreen('menu');
-                    this.updateMenuStats();
-                });
-
-                this.elements.menuBtn.addEventListener('click', () => {
-                    this.showScreen('menu');
-                    this.updateMenuStats();
-                });
-
-                this.elements.createDuelBtn.addEventListener('click', () => {
-                    this.createRoom();
-                });
-
-                this.elements.joinDuelBtn.addEventListener('click', () => {
-                    const code = this.elements.joinCodeInput.value.trim();
-                    this.joinRoom(code);
-                });
-
-                this.elements.resetBtn.addEventListener('click', () => {
-                    if (confirm('Сбросить весь прогресс?')) {
-                        this.state.score = 0;
-                        this.state.solvedCards = {};
-                        this.state.goldSolved = false;
-                        this.state.unlockedAchievements = [];
-                        this.state.artifactFound = false;
-                        this.state.currentLocation = 'logic';
-                        this.state.locationProgress = {};
-                        this.state.dungeonCompletedToday = false;
-                        this.state.dungeonDate = null;
-                        this.state.dungeonAttempts = 0;
-                        this.state.totalSolved = 0;
-                        this.state.totalAttempts = 0;
-                        this.state.correctAttempts = 0;
-                        this.state.crystals = 0;
-                        this.state.duelStats = { wins: 0, losses: 0, draws: 0, totalDuels: 0, winRate: 0, fastestWin: null };
-                        this.saveState();
-                        this.updateScore();
-                        this.updateAchievementBadge();
-                        this.updateMenuStats();
-                        this.updateDungeonStatus();
-                        this.showToast('🔄 Прогресс сброшен', 'info');
-                        this.renderWorldMap();
-                        this.loadLocation('logic');
-                        this.elements.container.scrollTop = 0;
-                        if (this.dungeonTimerInterval) {
-                            clearInterval(this.dungeonTimerInterval);
-                            this.dungeonTimerInterval = null;
-                        }
-                    }
-                });
-            },
-
-            attachEvents() {
-                // Блокировка скролла для босса
-                const self = this;
-                document.addEventListener('wheel', function(e) {
-                    if (!self.state.goldSolved && self.state.goldReached) {
-                        if (e.target.closest('.answer-input, .btn-hint, .check-btn, .option-btn')) return;
-                        e.preventDefault();
-                        self.forceScrollToGold();
-                    }
-                }, { passive: false, capture: true });
-                document.addEventListener('touchmove', function(e) {
-                    if (!self.state.goldSolved && self.state.goldReached) {
-                        if (e.target.closest('.answer-input, .btn-hint, .check-btn, .option-btn')) return;
-                        e.preventDefault();
-                        self.forceScrollToGold();
-                    }
-                }, { passive: false, capture: true });
-                const { container, goldCard } = this.elements;
-                container.addEventListener('scroll', function() {
-                    if (!self.state.goldSolved && self.state.goldReached && goldCard) {
-                        const rect = goldCard.getBoundingClientRect();
-                        const containerRect = container.getBoundingClientRect();
-                        if (rect.top < containerRect.top - 10 || rect.bottom > containerRect.bottom + 10) self.forceScrollToGold();
-                    }
-                });
-            },
-
+            // ===== БЛОКИРОВКА СКРОЛЛА ДЛЯ БОССА =====
             lockScroll() {
                 const { blocker, container, goldCard } = this.elements;
                 blocker.classList.add('active');
@@ -3383,6 +1941,71 @@
                     });
                 }, { threshold: 0.1 });
                 observer.observe(goldCard);
+            },
+
+            attachGlobalEvents() {
+                const self = this;
+                document.addEventListener('wheel', function(e) {
+                    if (!self.state.goldSolved && self.state.goldReached) {
+                        if (e.target.closest('.answer-input, .btn-hint, .check-btn, .option-btn')) return;
+                        e.preventDefault();
+                        self.forceScrollToGold();
+                    }
+                }, { passive: false, capture: true });
+                document.addEventListener('touchmove', function(e) {
+                    if (!self.state.goldSolved && self.state.goldReached) {
+                        if (e.target.closest('.answer-input, .btn-hint, .check-btn, .option-btn')) return;
+                        e.preventDefault();
+                        self.forceScrollToGold();
+                    }
+                }, { passive: false, capture: true });
+                const { container, goldCard } = this.elements;
+                container.addEventListener('scroll', function() {
+                    if (!self.state.goldSolved && self.state.goldReached && goldCard) {
+                        const rect = goldCard.getBoundingClientRect();
+                        const containerRect = container.getBoundingClientRect();
+                        if (rect.top < containerRect.top - 10 || rect.bottom > containerRect.bottom + 10) self.forceScrollToGold();
+                    }
+                });
+            },
+
+            initEnterHandler() {
+                document.querySelectorAll('.answer-input').forEach(inp => {
+                    inp.removeEventListener('keypress', this._enterHandler);
+                    this._enterHandler = (e) => {
+                        if (e.key === 'Enter') {
+                            const card = inp.closest('.scroll');
+                            if (card) {
+                                const check = card.querySelector('.check-btn');
+                                if (check) check.click();
+                            }
+                            e.preventDefault();
+                        }
+                    };
+                    inp.addEventListener('keypress', this._enterHandler);
+                });
+            },
+
+            initResetHandler() {
+                document.getElementById('resetBtn').addEventListener('click', () => {
+                    if (confirm('Сбросить весь прогресс и начать новое приключение?')) {
+                        this.state.score = 0;
+                        this.state.solvedCards = {};
+                        this.state.goldSolved = false;
+                        this.state.unlockedAchievements = [];
+                        this.state.artifactFound = false;
+                        this.state.currentLocation = 'logic';
+                        this.saveState();
+                        this.updateScore();
+                        this.updateAchievementBadge();
+                        this.showToast('🔄 Прогресс сброшен', 'info');
+                        this.loadLocation('logic');
+                        this.renderWorldMap();
+                        this.initEvents();
+                        this.renderAchievements();
+                        this.elements.container.scrollTop = 0;
+                    }
+                });
             }
         };
 
@@ -3390,5 +2013,6 @@
             Mathomancer.init();
         });
     </script>
+
 </body>
 </html>
